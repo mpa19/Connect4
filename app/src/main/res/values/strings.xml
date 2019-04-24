@@ -1,4 +1,12 @@
 <resources>
-    <string name="app_name">Connect4</string>
+    <string name="app_name">Connect 4</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="inici">Inici</string>
+    <string name="opComen">Començar partida</string>
+    <string name="opAjuda">Ajuda</string>
+    <string name="opSort">Sortir</string>
+    <string name="autors">By: Marc Perez and Bikraj Singh</string>
+    <string name="textAjuda">Benvinguts al Connect 4 \n\nPer començar..........................</string>
+
+
 </resources>
