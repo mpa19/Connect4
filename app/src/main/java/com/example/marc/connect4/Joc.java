@@ -9,19 +9,25 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 public class Joc extends AppCompatActivity {
     GridView androidGridView;
+    TextView tvJug1;
 
     Integer[] imageIDs = {
-            R.drawable.rojo
+            R.drawable.flecha, R.drawable.flecha, R.drawable.flecha, R.drawable.flecha, R.drawable.flecha, R.drawable.flecha, R.drawable.flecha
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joc);
+        tvJug1 = (TextView) findViewById(R.id.tvJugador);
+        String data = getIntent().getExtras().getString("Jugador","defaultKey");
+        tvJug1.setText(data+":");
         androidGridView = (GridView) findViewById(R.id.gridview_android_example);
         androidGridView.setAdapter(new ImageAdapterGridView(this));
 
@@ -59,7 +65,7 @@ public class Joc extends AppCompatActivity {
                 mImageView = new ImageView(mContext);
                 mImageView.setLayoutParams(new GridView.LayoutParams(130, 130));
                 mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                mImageView.setPadding(16, 16, 16, 16);
+                mImageView.setPadding(16, 16, 16, 0);
             } else {
                 mImageView = (ImageView) convertView;
             }

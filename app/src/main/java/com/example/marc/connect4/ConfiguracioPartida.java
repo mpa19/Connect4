@@ -24,6 +24,7 @@ public class ConfiguracioPartida extends AppCompatActivity {
         }
         else {
             Intent a = new Intent(this, Joc.class);
+            a.putExtra("Jugador",ed_text);
             startActivity(a);
             finish();
         }
