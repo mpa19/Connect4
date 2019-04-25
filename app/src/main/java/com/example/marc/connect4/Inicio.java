@@ -17,4 +17,10 @@ public class Inicio extends AppCompatActivity {
         Intent a = new Intent(this, Ajuda.class);
         startActivity(a);
     }
+
+    void gotoComençar(View v){
+        Intent a = new Intent(this, ConfiguracioPartida.class);
+        startActivity(a);
+        finish();
+    }
 }

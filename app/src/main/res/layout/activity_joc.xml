@@ -21,7 +21,7 @@
         android:id="@+id/imageView7"
         android:layout_width="wrap_content"
         android:layout_height="395dp"
-        app:srcCompat="@drawable/Connect4Board"
+        app:srcCompat="@drawable/board"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="168dp" />
 </android.support.constraint.ConstraintLayout>

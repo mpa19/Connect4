@@ -58,6 +58,7 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="#a3cdf4"
         android:fontFamily="sans-serif-condensed"
+        android:onClick="gotoComençar"
         android:text="@string/opComen"
         android:textColor="#000080"
         android:textSize="18sp"

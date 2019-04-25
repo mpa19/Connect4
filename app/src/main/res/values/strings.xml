@@ -7,6 +7,18 @@
     <string name="opSort">Sortir</string>
     <string name="autors">By: Marc Perez and Bikraj Singh</string>
     <string name="textAjuda">Benvinguts al Connect 4 \n\nPer començar..........................</string>
+    <string name="conf">Configuració</string>
+    <string name="alias">· Nom del jugador:</string>
+    <string name="rd1">7x7</string>
+    <string name="rd2">6x6</string>
+    <string name="rd3">5x5</string>
+    <string name="nameHint">Jugador 1</string>
+    <string name="graella">· Mida graella:</string>
+    <string name="temps">· Control del temps:</string>
+
+
+
+
 
 
 </resources>
