@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.06999999" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etNom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -184,6 +184,7 @@
         android:layout_marginBottom="32dp"
         android:backgroundTint="#a3cdf4"
         android:fontFamily="sans-serif-condensed"
+        android:onClick="gotoJugar"
         android:text="@string/opComen"
         android:textColor="#000080"
         android:textSize="18sp"

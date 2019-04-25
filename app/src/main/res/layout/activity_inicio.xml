@@ -96,6 +96,7 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="#a3cdf4"
         android:fontFamily="sans-serif-condensed"
+        android:onClick="gotoSortir"
         android:text="@string/opSort"
         android:textColor="#000080"
         android:textSize="18sp"

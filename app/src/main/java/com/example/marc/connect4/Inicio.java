@@ -23,4 +23,8 @@ public class Inicio extends AppCompatActivity {
         startActivity(a);
         finish();
     }
+
+    void gotoSortir(View v){
+        finish();
+    }
 }
