@@ -16,6 +16,14 @@
     <string name="graella">· Mida graella:</string>
     <string name="temps">· Control del temps:</string>
     <string name="toastNom">Nom del jugador obligatori</string>
+    <string name="result">Resultats</string>
+    <string name="data">· Data:</string>
+    <string name="email">· Email destinatari:</string>
+    <string name="enviaremail">Enviar e-mail</string>
+    <string name="nova">Nova partida</string>
+    <string name="exemail">exemple@gmail.com</string>
+    <string name="otro">Afegir jugador 2:</string>
+
 
 
 
