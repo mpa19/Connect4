@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -67,13 +66,10 @@ public class Joc extends AppCompatActivity {
         cpu = getIntent().getExtras().getBoolean("CPU",true);
 
 
-
-
         tvJug1.setText(data+":");
         tvJug2.setText(data2+":");
         tvTime.setText("50");
 
-        game = new Game(ROWS,COLUMNS, TO_WIN);
         tiempo();
         ROWS = numRows;
         if(ROWS == 6) fondoBoard.setImageResource(R.drawable.board);
@@ -86,6 +82,8 @@ public class Joc extends AppCompatActivity {
         androidGridView.setAdapter(b);
         a = new ImageAdapterGridView2(this);
         androidGridView2.setAdapter(a);
+
+        game = new Game(ROWS,COLUMNS, TO_WIN);
 
         androidGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent,
@@ -283,12 +281,6 @@ public class Joc extends AppCompatActivity {
         savedInstanceState.putString("Time", tvTime.getText().toString());
         savedInstanceState.putBoolean("Cpu", cpu);
         savedInstanceState.putBoolean("Temps", temps);
-
-
-
-
-
-
     }
 
     @Override
