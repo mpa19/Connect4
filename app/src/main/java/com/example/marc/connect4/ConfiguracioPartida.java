@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,9 @@ public class ConfiguracioPartida extends AppCompatActivity {
     CheckBox cb;
     EditText jugador2;
     Switch s;
+    RadioButton r6;
+    RadioButton r5;
+    RadioButton r4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,9 @@ public class ConfiguracioPartida extends AppCompatActivity {
                 else jugador2.setVisibility(View.INVISIBLE);
             }
         });
+        r6 = findViewById(R.id.radioButton3);
+        r5 = findViewById(R.id.radioButton2);
+        r4 = findViewById(R.id.radioButton);
     }
 
     void gotoJugar(View v){
@@ -49,6 +56,10 @@ public class ConfiguracioPartida extends AppCompatActivity {
                 a.putExtra("CPU",false);
                 a.putExtra("Jugador2", ed_text2);
             }
+            if(r6.isChecked()) a.putExtra("Rows",6);
+            else if(r5.isChecked()) a.putExtra("Rows",5);
+            else if(r4.isChecked()) a.putExtra("Rows",4);
+
             startActivity(a);
             finish();
         }

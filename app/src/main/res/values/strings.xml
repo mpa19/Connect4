@@ -6,12 +6,33 @@
     <string name="opAjuda">Ajuda</string>
     <string name="opSort">Sortir</string>
     <string name="autors">By: Marc Perez and Bikraj Singh</string>
-    <string name="textAjuda">Benvinguts al Connect 4 \n\nPer començar..........................</string>
+    <string name="textAjuda">
+        L,objectiu de Connecta 4 es alinear quatre fitxes\n
+        sobre un tauler que pot estar format per 6 files \n
+        i 7 columnes, 5 files i 7 columnes o 4 files i 7 \n
+        columnes dependent de quina opcio elegim en la   \n
+        pantalla de configuracio de patida.\n\n
+        Pot elegir jugar contra la maquina o amb un altre\n
+        jugador localment. El jugador 1 sempre sera el de\n
+        color vermell, mentres que la maquina o el jugador\n
+        2 sera el groc. Per torns, els jugadors han de se-\n
+        leccionar la fletxa que indica la columna on anira\n
+        la fitxa i aquesta caura a la posicio mes baixa. \n\n
+        Depenent del color de la fletxa ens indica el torn \n
+        del jugador. Guanya la partida el primer que acons-\n
+        egueixi alinear quatre fitxes consecutives d,un \n
+        mateix color en horitzontal, vertical o diagonal.\n\n
+        Si totes les columnes estan plenes pero ningu ha \n
+        fet una fila valida, hi ha empat. Tambe en cas de \n
+        seleccionar la casella de temps, hi haura un temps \n
+        perque algun dels dos jugadors guanyi o la partida\n
+        quedara com perdua.</string>
+    <string name="ajudaTitol">Benvinguts al Connect 4</string>
     <string name="conf">Configuració</string>
     <string name="alias">· Nom del jugador:</string>
-    <string name="rd1">7x7</string>
-    <string name="rd2">6x6</string>
-    <string name="rd3">5x5</string>
+    <string name="rd1">6x7</string>
+    <string name="rd2">5x7</string>
+    <string name="rd3">4x7</string>
     <string name="nameHint">Jugador 1</string>
     <string name="graella">· Mida graella:</string>
     <string name="temps">· Control del temps:</string>

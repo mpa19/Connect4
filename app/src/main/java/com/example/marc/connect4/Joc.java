@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,7 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Random;
 
@@ -26,9 +26,9 @@ public class Joc extends AppCompatActivity {
     GridView androidGridView2;
     ImageAdapterGridView2 a;
     ImageAdapterGridView1 b;
+    ImageView fondoBoard;
 
-
-    private static final int ROWS    = 6;
+    private int ROWS    = 6;
     private static final int COLUMNS = 7;
     private static final int TO_WIN  = 4;
 
@@ -38,9 +38,11 @@ public class Joc extends AppCompatActivity {
     TextView tvJug2;
     TextView tvTime;
     boolean cpu;
+    boolean temps;
+    int numRows;
 
 
-    Integer[] imageIDs = {
+    int[] imageIDs = {
             R.drawable.flecha , R.drawable.flecha, R.drawable.flecha, R.drawable.flecha,
             R.drawable.flecha, R.drawable.flecha, R.drawable.flecha
     };
@@ -53,47 +55,32 @@ public class Joc extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joc);
-        game = new Game(ROWS,COLUMNS, TO_WIN);
-        tvJug1 = (TextView) findViewById(R.id.tvJugador);
-        tvJug2 = (TextView) findViewById(R.id.tvJugador2);
-        tvTime = (TextView) findViewById(R.id.tvTime);
-        boolean temps = getIntent().getExtras().getBoolean("Temps",false);
-        if(temps) {
-            tvTime.setTextColor(Color.RED);
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    boolean tiempo = true;
-
-                    for (int a = 50; a > 0; a--) {
-                        setText(tvTime, String.valueOf(a));
-                        try {
-                            sleep(1 * 1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        if (game.isFinished()) {
-                            tiempo = false;
-                            break;
-
-                        }
-                    }
-                    if (tiempo) {
-                        acabar("El temps s'ha esgotat");
-                    }
-                }
-            });
-        }
+        tvJug1 = findViewById(R.id.tvJugador);
+        tvJug2 = findViewById(R.id.tvJugador2);
+        tvTime = findViewById(R.id.tvTime);
+        fondoBoard = findViewById(R.id.ivBoard);
 
         String data = getIntent().getExtras().getString("Jugador");
         String data2 = getIntent().getExtras().getString("Jugador2","CPU");
+        temps = getIntent().getExtras().getBoolean("Temps",false);
+        numRows = getIntent().getExtras().getInt("Rows");
+        cpu = getIntent().getExtras().getBoolean("CPU",true);
+
+
+
+
         tvJug1.setText(data+":");
         tvJug2.setText(data2+":");
+        tvTime.setText("50");
 
+        game = new Game(ROWS,COLUMNS, TO_WIN);
+        tiempo();
+        ROWS = numRows;
+        if(ROWS == 6) fondoBoard.setImageResource(R.drawable.board);
+        else if(ROWS == 5) fondoBoard.setImageResource(R.drawable.board5);
 
-        cpu = getIntent().getExtras().getBoolean("CPU",true);
-        androidGridView = (GridView) findViewById(R.id.gridview_android_example);
-        androidGridView2 = (GridView) findViewById(R.id.gridview_android_example2);
+        androidGridView = findViewById(R.id.gridview_android_example);
+        androidGridView2 = findViewById(R.id.gridview_android_example2);
         androidGridView2.setNumColumns(COLUMNS);
         b = new ImageAdapterGridView1(this);
         androidGridView.setAdapter(b);
@@ -156,6 +143,37 @@ public class Joc extends AppCompatActivity {
         });
     }
 
+    private void tiempo(){
+        if(temps) {
+            tvTime.setTextColor(Color.RED);
+            TextView tvTime2 = findViewById(R.id.tvTime2);
+            tvTime2.setTextColor(Color.RED);
+
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    boolean tiempo = true;
+
+                    for (int a = Integer.parseInt(tvTime.getText().toString()); a > 0; a--) {
+                        setText(tvTime, String.valueOf(a));
+                        try {
+                            sleep(1 * 1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if (game.isFinished()) {
+                            tiempo = false;
+                            break;
+
+                        }
+                    }
+                    if (tiempo) {
+                        acabar("El temps s'ha esgotat");
+                    }
+                }
+            });
+        }
+    }
     private void acabar(String text){
 
         Intent a = new Intent(this, Resultats.class);
@@ -167,7 +185,7 @@ public class Joc extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                text.setText(value+" secs");
+                text.setText(value);
             }
         });
     }
@@ -195,7 +213,7 @@ public class Joc extends AppCompatActivity {
 
             if (convertView == null) {
                 mImageView = new ImageView(mContext);
-                mImageView.setLayoutParams(new GridView.LayoutParams(130, 130));
+                mImageView.setLayoutParams(new GridView.LayoutParams(133, 133));
                 mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 mImageView.setPadding(16, 16, 16, 0);
             } else {
@@ -261,12 +279,26 @@ public class Joc extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putIntArray("Graella", graella);
+        savedInstanceState.putIntArray("Flecha", imageIDs);
+        savedInstanceState.putString("Time", tvTime.getText().toString());
+        savedInstanceState.putBoolean("Cpu", cpu);
+        savedInstanceState.putBoolean("Temps", temps);
+
+
+
+
+
+
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         graella = savedInstanceState.getIntArray("Graella");
+        imageIDs = savedInstanceState.getIntArray("Flecha");
+        tvTime.setText(savedInstanceState.getString("Time"));
+        cpu = savedInstanceState.getBoolean("Cpu");
+        temps = savedInstanceState.getBoolean("Temps");
     }
 
 }

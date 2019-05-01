@@ -1,5 +1,8 @@
 package com.example.marc.connect4;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 public class Game {
 
     private final Board board;
@@ -69,4 +72,5 @@ public class Game {
     public boolean isFinished() {
         return (this.status != Status.PLAYER1_PLAYS && this.status != Status.PLAYER2_PLAYS);
     }
+
 }
