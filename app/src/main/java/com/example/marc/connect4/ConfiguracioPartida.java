@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import es.dmoral.toasty.Toasty;
+
 public class ConfiguracioPartida extends AppCompatActivity {
     CheckBox cb;
     EditText jugador2;
@@ -46,7 +48,7 @@ public class ConfiguracioPartida extends AppCompatActivity {
         String ed_text2 = jugador2.getText().toString().trim();
 
         if(TextUtils.isEmpty(ed_text) || (s.isChecked() && TextUtils.isEmpty(ed_text2))){
-            Toast.makeText(getBaseContext(), R.string.toastNom, Toast.LENGTH_LONG).show();
+            Toasty.error(getBaseContext(), R.string.toastNom, Toast.LENGTH_SHORT, true).show();
         }
         else {
             Intent a = new Intent(this, Joc.class);

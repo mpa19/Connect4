@@ -27,6 +27,7 @@
         android:background="@drawable/boton_redondo"
         android:backgroundTint="#a3cdf4"
         android:fontFamily="sans-serif-condensed"
+        android:onClick="gotoEmail"
         android:text="@string/enviaremail"
         android:textColor="#000080"
         android:textSize="18sp"
