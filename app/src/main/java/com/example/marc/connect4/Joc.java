@@ -14,6 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -40,7 +41,7 @@ public class Joc extends AppCompatActivity {
     boolean temps;
     int numRows;
 
-
+    ArrayList<Integer> jugadas = new ArrayList<>();
     int[] imageIDs = {
             R.drawable.flecha , R.drawable.flecha, R.drawable.flecha, R.drawable.flecha,
             R.drawable.flecha, R.drawable.flecha, R.drawable.flecha
@@ -68,7 +69,7 @@ public class Joc extends AppCompatActivity {
 
         tvJug1.setText(data+":");
         tvJug2.setText(data2+":");
-        tvTime.setText("50");
+        //tvTime.setText("50");
 
         tiempo();
         ROWS = numRows;
@@ -109,6 +110,7 @@ public class Joc extends AppCompatActivity {
                             imageIDs[a] = R.drawable.flecha;
                         }
                     }
+                    jugadas.add(position);
                     androidGridView.setAdapter(b);
                     androidGridView2.setAdapter(a);
                     updateCurrent(position);
@@ -127,6 +129,8 @@ public class Joc extends AppCompatActivity {
                                 graella[posi1] = R.drawable.amarillo;
                                 androidGridView2.setAdapter(a);
                                 androidGridView.setAdapter(b);
+                                jugadas.add(i1);
+
 
                                 for(int a = 0; a < COLUMNS; a++) {
                                     imageIDs[a] = R.drawable.flecha;
@@ -281,6 +285,8 @@ public class Joc extends AppCompatActivity {
         savedInstanceState.putString("Time", tvTime.getText().toString());
         savedInstanceState.putBoolean("Cpu", cpu);
         savedInstanceState.putBoolean("Temps", temps);
+        savedInstanceState.putIntegerArrayList("Jugadas", jugadas);
+
     }
 
     @Override
@@ -291,6 +297,15 @@ public class Joc extends AppCompatActivity {
         tvTime.setText(savedInstanceState.getString("Time"));
         cpu = savedInstanceState.getBoolean("Cpu");
         temps = savedInstanceState.getBoolean("Temps");
+        jugadas = savedInstanceState.getIntegerArrayList("Jugadas");
+        empezar();
+    }
+
+    private void empezar(){
+        for(int a = 0; a < jugadas.size(); a++){
+            game.play(jugadas.get(a));
+            updateCurrent(jugadas.get(a));
+        }
     }
 
 }
