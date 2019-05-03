@@ -1,6 +1,7 @@
 package com.example.marc.connect4;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,31 +19,37 @@ import es.dmoral.toasty.Toasty;
 public class Resultats extends AppCompatActivity {
     EditText email;
     TextView resultat;
+    MediaPlayer buttonSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultats);
+        TextView fecha = findViewById(R.id.tvData);
+        resultat = findViewById(R.id.tvResultat);
+        email = findViewById(R.id.etNom3);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
-        TextView fecha = findViewById(R.id.tvData);
-        fecha.setText(currentDateandTime);
-        resultat = findViewById(R.id.tvResultat);
-        resultat.setText(getIntent().getExtras().getString("Result"));
-        email = findViewById(R.id.etNom3);
 
+        fecha.setText(currentDateandTime);
+        resultat.setText(getIntent().getExtras().getString("Result"));
+        buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
     }
 
     void gotoSortir(View v){
+        buttonSound.start();
         finish();
     }
 
     void gotoNova(View v) {
+        buttonSound.start();
         Intent a = new Intent(this, ConfiguracioPartida.class);
         startActivity(a);
         finish();
     }
 
     void gotoEmail(View v){
+        buttonSound.start();
         String ed_text = email.getText().toString().trim();
         if(TextUtils.isEmpty(ed_text)){
             Toasty.error(getBaseContext(), R.string.emailNeed, Toast.LENGTH_SHORT, true).show();

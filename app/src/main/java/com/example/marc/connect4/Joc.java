@@ -3,6 +3,7 @@ package com.example.marc.connect4;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,12 @@ public class Joc extends AppCompatActivity {
     ImageAdapterGridView2 a;
     ImageAdapterGridView1 b;
     ImageView fondoBoard;
+    MediaPlayer fondoSound;
+    MediaPlayer buttonSound;
+    ImageView musica;
+    TextView tvJug1;
+    TextView tvJug2;
+    TextView tvTime;
 
     private int ROWS    = 6;
     private static final int COLUMNS = 7;
@@ -34,12 +41,10 @@ public class Joc extends AppCompatActivity {
 
     private Game game;
 
-    TextView tvJug1;
-    TextView tvJug2;
-    TextView tvTime;
     boolean cpu;
     boolean temps;
     int numRows;
+    boolean music = true;
 
     ArrayList<Integer> jugadas = new ArrayList<>();
     int[] imageIDs = {
@@ -59,6 +64,14 @@ public class Joc extends AppCompatActivity {
         tvJug2 = findViewById(R.id.tvJugador2);
         tvTime = findViewById(R.id.tvTime);
         fondoBoard = findViewById(R.id.ivBoard);
+        buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
+        fondoSound = MediaPlayer.create(this, R.raw.fondomusic);
+        musica = findViewById(R.id.ivSound);
+
+        if(music) {
+            fondoSound.setLooping(true);
+            fondoSound.start();
+        }
 
         String data = getIntent().getExtras().getString("Jugador");
         String data2 = getIntent().getExtras().getString("Jugador2","CPU");
@@ -69,7 +82,6 @@ public class Joc extends AppCompatActivity {
 
         tvJug1.setText(data+":");
         tvJug2.setText(data2+":");
-        //tvTime.setText("50");
 
         tiempo();
         ROWS = numRows;
@@ -89,7 +101,7 @@ public class Joc extends AppCompatActivity {
         androidGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent,
                                     View v, final int position, long id) {
-
+                buttonSound.start();
                 if (game.isFinished()) return;
 
                 if (game.canPlayColumn(position)) {
@@ -145,6 +157,17 @@ public class Joc extends AppCompatActivity {
         });
     }
 
+    public void paraMusica(View v){
+        if(music) {
+            musica.setImageResource(R.drawable.mute);
+            fondoSound.pause();
+            music = false;
+        } else {
+            musica.setImageResource(R.drawable.sound);
+            fondoSound.start();
+            music = true;
+        }
+    }
     private void tiempo(){
         if(temps) {
             tvTime.setTextColor(Color.RED);
@@ -181,6 +204,7 @@ public class Joc extends AppCompatActivity {
         Intent a = new Intent(this, Resultats.class);
         a.putExtra("Result", text);
         startActivity(a);
+        fondoSound.stop();
         finish();
     }
     private void setText(final TextView text,final String value){
@@ -286,7 +310,8 @@ public class Joc extends AppCompatActivity {
         savedInstanceState.putBoolean("Cpu", cpu);
         savedInstanceState.putBoolean("Temps", temps);
         savedInstanceState.putIntegerArrayList("Jugadas", jugadas);
-
+        savedInstanceState.putBoolean("Music", music);
+        fondoSound.pause();
     }
 
     @Override
@@ -298,6 +323,12 @@ public class Joc extends AppCompatActivity {
         cpu = savedInstanceState.getBoolean("Cpu");
         temps = savedInstanceState.getBoolean("Temps");
         jugadas = savedInstanceState.getIntegerArrayList("Jugadas");
+        music = savedInstanceState.getBoolean("Music");
+        if (!music) {
+            fondoSound.pause();
+            musica.setImageResource(R.drawable.mute);
+        }
+
         empezar();
     }
 
