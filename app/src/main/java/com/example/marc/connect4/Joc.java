@@ -22,10 +22,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-
-import static java.lang.Thread.sleep;
-
-
 public class Joc extends AppCompatActivity {
     GridView androidGridView;
     GridView androidGridView2;
@@ -54,7 +50,6 @@ public class Joc extends AppCompatActivity {
     int numRows;
     boolean music = true;
     boolean timer;
-    boolean timer1 = true;
 
     ArrayList<Integer> jugadas = new ArrayList<>();
     int[] imageIDs = {
@@ -240,14 +235,7 @@ public class Joc extends AppCompatActivity {
         fondoSound.stop();
         finish();
     }
-    private void setText(final TextView text,final String value){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                text.setText(value);
-            }
-        });
-    }
+
     public class ImageAdapterGridView1 extends BaseAdapter {
         private Context mContext;
 
