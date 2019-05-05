@@ -2,15 +2,19 @@ package com.example.marc.connect4;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +38,10 @@ public class Joc extends AppCompatActivity {
     TextView tvJug1;
     TextView tvJug2;
     TextView tvTime;
+    FrameLayout fmFechas;
+    FrameLayout fmBoard;
+    CountDownTimer cdt;
+
 
     private int ROWS    = 6;
     private static final int COLUMNS = 7;
@@ -45,6 +53,8 @@ public class Joc extends AppCompatActivity {
     boolean temps;
     int numRows;
     boolean music = true;
+    boolean timer;
+    boolean timer1 = true;
 
     ArrayList<Integer> jugadas = new ArrayList<>();
     int[] imageIDs = {
@@ -67,10 +77,14 @@ public class Joc extends AppCompatActivity {
         buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
         fondoSound = MediaPlayer.create(this, R.raw.fondomusic);
         musica = findViewById(R.id.ivSound);
+        fmFechas = findViewById(R.id.frameLayout);
+        fmBoard = findViewById(R.id.frameLayout2);
 
         if(music) {
             fondoSound.setLooping(true);
             fondoSound.start();
+        } else {
+            musica.setImageResource(R.drawable.mute);
         }
 
         String data = getIntent().getExtras().getString("Jugador");
@@ -84,9 +98,29 @@ public class Joc extends AppCompatActivity {
         tvJug2.setText(data2+":");
 
         tiempo();
+
         ROWS = numRows;
-        if(ROWS == 6) fondoBoard.setImageResource(R.drawable.board);
-        else if(ROWS == 5) fondoBoard.setImageResource(R.drawable.board5);
+
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) fmFechas.getLayoutParams();
+        ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) fmBoard.getLayoutParams();
+        ConstraintLayout.LayoutParams params3 = (ConstraintLayout.LayoutParams) fondoBoard.getLayoutParams();
+        int orientation = getResources().getConfiguration().orientation;
+
+        if(ROWS == 6)fondoBoard.setImageResource(R.drawable.board);
+        else if(ROWS == 5) {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                params.verticalBias = (float) 1;
+                params2.verticalBias = (float) 1.2;
+                params3.verticalBias = (float) 1.23;
+            }
+            fondoBoard.setImageResource(R.drawable.board5);
+        } else {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                params.verticalBias = (float) 1;
+                params2.verticalBias = (float) 1.2;
+                params3.verticalBias = (float) 1.23;
+            }
+        }
 
         androidGridView = findViewById(R.id.gridview_android_example);
         androidGridView2 = findViewById(R.id.gridview_android_example2);
@@ -174,35 +208,34 @@ public class Joc extends AppCompatActivity {
             TextView tvTime2 = findViewById(R.id.tvTime2);
             tvTime2.setTextColor(Color.RED);
 
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    boolean tiempo = true;
-
-                    for (int a = Integer.parseInt(tvTime.getText().toString()); a > 0; a--) {
-                        setText(tvTime, String.valueOf(a));
-                        try {
-                            sleep(1 * 1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        if (game.isFinished()) {
-                            tiempo = false;
-                            break;
-
-                        }
-                    }
-                    if (tiempo) {
-                        acabar("El temps s'ha esgotat");
+            int mili = Integer.valueOf(tvTime.getText().toString()) * 1000;
+            timer = true;
+            cdt = new CountDownTimer(mili, 1000) {
+                int time = Integer.valueOf(tvTime.getText().toString());
+                public void onTick(long millisUntilFinished) {
+                    tvTime.setText(checkDigit(time));
+                    time--;
+                    if(game.isFinished()){
+                        timer = false;
+                        cdt.onFinish();
                     }
                 }
-            });
+
+                public void onFinish() {
+                    if(timer) acabar("El temps s'ha esgotat");
+                }
+
+            }.start();
         }
     }
-    private void acabar(String text){
 
+    public String checkDigit(int number) {
+        return number <= 9 ? "0" + number : String.valueOf(number);
+    }
+    private void acabar(String text){
         Intent a = new Intent(this, Resultats.class);
         a.putExtra("Result", text);
+        cdt.cancel();
         startActivity(a);
         fondoSound.stop();
         finish();
@@ -239,9 +272,21 @@ public class Joc extends AppCompatActivity {
 
             if (convertView == null) {
                 mImageView = new ImageView(mContext);
-                mImageView.setLayoutParams(new GridView.LayoutParams(133, 133));
-                mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                mImageView.setPadding(16, 16, 16, 0);
+                int orientation = getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    // In landscape
+                    mImageView.setLayoutParams(new GridView.LayoutParams(100, 100));
+                    mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    mImageView.setPadding(20, 16, 20, 15);
+                    androidGridView.setColumnWidth(120);
+
+                } else {
+                    // In portrait
+                    mImageView.setLayoutParams(new GridView.LayoutParams(133, 133));
+                    mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    mImageView.setPadding(16, 16, 16, 0);
+                }
+
             } else {
                 mImageView = (ImageView) convertView;
             }
@@ -275,9 +320,21 @@ public class Joc extends AppCompatActivity {
 
             if (convertView == null) {
                 mImageView = new ImageView(mContext);
-                mImageView.setLayoutParams(new GridView.LayoutParams(133, 133));
-                mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                mImageView.setPadding(16, 5, 16, 0);
+                int orientation = getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    // In landscape
+                    mImageView.setLayoutParams(new GridView.LayoutParams(115, 115));
+                    mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    mImageView.setPadding(20, 5, 20, 0);
+                    androidGridView2.setColumnWidth(150);
+
+                } else {
+                    // In portrait
+                    mImageView.setLayoutParams(new GridView.LayoutParams(133, 133));
+                    mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    mImageView.setPadding(16, 5, 16, 0);
+                }
+
             } else {
                 mImageView = (ImageView) convertView;
             }
@@ -311,6 +368,7 @@ public class Joc extends AppCompatActivity {
         savedInstanceState.putBoolean("Temps", temps);
         savedInstanceState.putIntegerArrayList("Jugadas", jugadas);
         savedInstanceState.putBoolean("Music", music);
+        cdt.cancel();
         fondoSound.pause();
     }
 
@@ -324,12 +382,17 @@ public class Joc extends AppCompatActivity {
         temps = savedInstanceState.getBoolean("Temps");
         jugadas = savedInstanceState.getIntegerArrayList("Jugadas");
         music = savedInstanceState.getBoolean("Music");
+
         if (!music) {
             fondoSound.pause();
             musica.setImageResource(R.drawable.mute);
         }
 
         empezar();
+        if(temps) {
+            cdt.cancel();
+            tiempo();
+        }
     }
 
     private void empezar(){
