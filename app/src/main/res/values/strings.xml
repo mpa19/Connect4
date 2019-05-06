@@ -39,12 +39,26 @@
     <string name="toastNom">Nom del jugador obligatori</string>
     <string name="result">Resultats</string>
     <string name="data">· Data:</string>
-    <string name="email">· Email destinatari:</string>
+    <string name="email">· E-mail destinatari:</string>
     <string name="enviaremail">Enviar e-mail</string>
     <string name="nova">Nova partida</string>
     <string name="exemail">exemple@gmail.com</string>
     <string name="otro">Afegir jugador 2:</string>
-    <string name="emailNeed">Email necessari</string>
+    <string name="emailNeed">E-mail necessari</string>
+    <string name="win">Has guanyat &#160;</string>
+    <string name="winToast">Enhorabona has guanyat!! &#160;</string>
+    <string name="lose">Has perdut &#160;</string>
+    <string name="loseToast">Has perdut!! &#160;</string>
+    <string name="draw">Heu quedat empatats!!</string>
+
+
+
+
+
+
+
+
+
 
 
 

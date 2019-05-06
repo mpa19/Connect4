@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,9 +19,14 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import es.dmoral.toasty.Toasty;
+
+import static java.lang.Thread.sleep;
 
 public class Joc extends AppCompatActivity {
     GridView androidGridView;
@@ -331,17 +337,60 @@ public class Joc extends AppCompatActivity {
             return mImageView;
         }
     }
+    private void mssg(final int i){
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    if(temps) cdt.cancel();
+                    Thread.sleep(3000);
+                    if(i == 1) {
+                        if(temps) acabar(getString(R.string.win)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1)+" y han sobrat: "+tvTime.getText()+" secs");
+                        else acabar(getString(R.string.win)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
+                    }
+                    else if(i == 2) {
+                        if(cpu) {
+                            if(temps) acabar(getString(R.string.lose)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1)+" y han sobrat: "+tvTime.getText()+" secs");
+                            else acabar(getString(R.string.lose)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
+                        }
+                        else {
+                            if(temps) acabar(getString(R.string.win)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1)+" y han sobrat: "+tvTime.getText()+" secs");
+                            else acabar(getString(R.string.win)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1));
 
+                        }
+                    } else {
+                        acabar(getString(R.string.draw));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+    }
     private void updateCurrent(int column) {
-        // We must re-check canPlay because we have played a move
         if (game.isFinished() || !game.canPlayColumn(column)) {
             if(Status.PLAYER1_WINS == game.getStatus()) {
-                acabar("Has guanyat "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1)+" y han sobrat: "+tvTime.getText());
+
+                Toast toast = Toasty.success(getBaseContext(), getString(R.string.winToast)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1), Toast.LENGTH_LONG, true);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+                mssg(1);
             }
             else if(Status.PLAYER2_WINS == game.getStatus()) {
-                if(cpu) acabar("Has perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1)+" y han sobrat: "+tvTime.getText());
-                else acabar("Has guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1)+" y han sobrat: "+tvTime.getText());
-            } else if(Status.DRAW == game.getStatus()) acabar("Heu quedat empatats!!");
+                Toast toast;
+                if(cpu) toast = Toasty.error(getBaseContext(), getString(R.string.loseToast), Toast.LENGTH_LONG, true);
+                else toast = Toasty.success(getBaseContext(), getString(R.string.winToast)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1), Toast.LENGTH_LONG, true);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+                mssg(2);
+            } else if(Status.DRAW == game.getStatus()) {
+                Toast toast = Toasty.info(getBaseContext(), getString(R.string.draw), Toast.LENGTH_LONG, true);
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
+                mssg(3);
+            }
         }
     }
 
@@ -355,7 +404,7 @@ public class Joc extends AppCompatActivity {
         savedInstanceState.putBoolean("Temps", temps);
         savedInstanceState.putIntegerArrayList("Jugadas", jugadas);
         savedInstanceState.putBoolean("Music", music);
-        cdt.cancel();
+        if(temps) cdt.cancel();
         fondoSound.pause();
     }
 
