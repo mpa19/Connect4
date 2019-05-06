@@ -230,7 +230,6 @@ public class Joc extends AppCompatActivity {
     private void acabar(String text){
         Intent a = new Intent(this, Resultats.class);
         a.putExtra("Result", text);
-        cdt.cancel();
         startActivity(a);
         fondoSound.stop();
         finish();
