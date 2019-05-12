@@ -1,6 +1,6 @@
 # Connect4
 
-Aquest repositori conté el joc Connect 4 implementant en Android.
+Aquest repositori conté el joc Connect 4 implementant en Android per Marc Perez i Bikraj Singh.
 
 ## SplashScreen
 Aquesta aplicació en executar-se ens mostrés una pantalla de càrrega on veurem el nom de l'aplicació i el nom dels creadors.
