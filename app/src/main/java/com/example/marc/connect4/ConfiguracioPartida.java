@@ -11,10 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import es.dmoral.toasty.Toasty;
 
@@ -58,7 +55,7 @@ public class ConfiguracioPartida extends AppCompatActivity {
             Toasty.error(getBaseContext(), R.string.toastNom, Toast.LENGTH_SHORT, true).show();
         }
         else {
-            Intent a = new Intent(this, Joc.class);
+            Intent a = new Intent(this, PantallaJoc.class);
             if(cb.isChecked()) a.putExtra("Temps", true);
             a.putExtra("Jugador",ed_text);
             if(s.isChecked()) {

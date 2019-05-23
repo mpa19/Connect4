@@ -5,15 +5,17 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Connect4"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Resultats"></activity>
+        <activity android:name=".PantallaJoc"></activity>
+        <activity android:name=".Resultats" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity android:name=".ConfiguracioPartida" />
-        <activity android:name=".Joc" />
+        <activity android:name=".JocFragment" />
         <activity android:name=".Ajuda" />
-        <activity android:name=".Inicio" />
+        <activity android:name=".ConfiguracioPredeterminada"/>
+        <activity android:name=".Inicio" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

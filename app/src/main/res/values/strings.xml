@@ -7,25 +7,25 @@
     <string name="opSort">Sortir</string>
     <string name="autors">By: Marc Perez and Bikraj Singh</string>
     <string name="textAjuda">
-        L,objectiu de Connecta 4 es alinear quatre fitxes\n
-        sobre un tauler que pot estar format per 6 files \n
-        i 7 columnes, 5 files i 7 columnes o 4 files i 7 \n
-        columnes dependent de quina opcio elegim en la   \n
-        pantalla de configuracio de patida.\n\n
-        Pot elegir jugar contra la maquina o amb un altre\n
-        jugador localment. El jugador 1 sempre sera el de\n
-        color vermell, mentres que la maquina o el jugador\n
-        2 sera el groc. Per torns, els jugadors han de se-\n
-        leccionar la fletxa que indica la columna on anira\n
-        la fitxa i aquesta caura a la posicio mes baixa. \n\n
-        Depenent del color de la fletxa ens indica el torn \n
-        del jugador. Guanya la partida el primer que acons-\n
-        egueixi alinear quatre fitxes consecutives d,un \n
-        mateix color en horitzontal, vertical o diagonal.\n\n
-        Si totes les columnes estan plenes pero ningu ha \n
-        fet una fila valida, hi ha empat. Tambe en cas de \n
-        seleccionar la casella de temps, hi haura un temps \n
-        perque algun dels dos jugadors guanyi o la partida\n
+        L,objectiu de Connecta 4 es alinear quatre fitxes
+        sobre un tauler que pot estar format per 6 files
+        i 7 columnes, 5 files i 7 columnes o 4 files i 7
+        columnes dependent de quina opcio elegim en la
+        pantalla de configuracio de patida.\n
+        Pot elegir jugar contra la maquina o amb un altre
+        jugador localment. El jugador 1 sempre sera el de
+        color vermell, mentres que la maquina o el jugador
+        2 sera el groc. Per torns, els jugadors han de se-
+        leccionar la fletxa que indica la columna on anira
+        la fitxa i aquesta caura a la posicio mes baixa. \n\
+        Depenent del color de la fletxa ens indica el torn
+        del jugador. Guanya la partida el primer que acons-
+        egueixi alinear quatre fitxes consecutives d,un
+        mateix color en horitzontal, vertical o diagonal.\n
+        Si totes les columnes estan plenes pero ningu ha
+        fet una fila valida, hi ha empat. Tambe en cas de
+        seleccionar la casella de temps, hi haura un temps
+        perque algun dels dos jugadors guanyi o la partida
         quedara com perdua.</string>
     <string name="ajudaTitol">Benvinguts al Connect 4</string>
     <string name="conf">Configuració</string>
@@ -50,21 +50,19 @@
     <string name="lose">Has perdut &#160;</string>
     <string name="loseToast">Has perdut!! &#160;</string>
     <string name="draw">Heu quedat empatats!!</string>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <string-array name="sizes">
+        <item>6</item>
+        <item>5</item>
+        <item>4</item>
+    </string-array>
+    <string name="aliasMenu">Player 1</string>
+    <string name="aliasMenu2">Player 2 (If you want PvP)</string>
+    <string name="boardMenu">Board</string>
+    <string name="timeMenu">Time control</string>
+    <string name="settingsMenu">Settings</string>
+    <string name="boardSize">Board size:</string>
+    <string name="playerIdentifier">Identifying player 1:</string>
+    <string name="playerIdentifier2">Identifying player 2:</string>
 
 
 

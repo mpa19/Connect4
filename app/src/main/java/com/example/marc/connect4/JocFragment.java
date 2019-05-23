@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.CountDownTimer;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,12 +27,11 @@ import es.dmoral.toasty.Toasty;
 
 import static java.lang.Thread.sleep;
 
-public class Joc extends AppCompatActivity {
+public class JocFragment extends Fragment {
     GridView androidGridView;
     GridView androidGridView2;
     ImageAdapterGridView2 a;
     ImageAdapterGridView1 b;
-    ImageView fondoBoard;
     MediaPlayer fondoSound;
     MediaPlayer buttonSound;
     ImageView musica;
@@ -63,23 +61,26 @@ public class Joc extends AppCompatActivity {
             R.drawable.flecha, R.drawable.flecha, R.drawable.flecha
     };
 
-    int[] graella= {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    };
+    int[] graella;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_joc);
-        tvJug1 = findViewById(R.id.tvJugador);
-        tvJug2 = findViewById(R.id.tvJugador2);
-        tvTime = findViewById(R.id.tvTime);
-        fondoBoard = findViewById(R.id.ivBoard);
-        buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
-        fondoSound = MediaPlayer.create(this, R.raw.fondomusic);
-        musica = findViewById(R.id.ivSound);
-        fmFechas = findViewById(R.id.frameLayout);
-        fmBoard = findViewById(R.id.frameLayout2);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_joc, container, false);
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        tvJug1 = getView().findViewById(R.id.tvJugador);
+        tvJug2 = getView().findViewById(R.id.tvJugador2);
+        tvTime = getView().findViewById(R.id.tvTime);
+        buttonSound = MediaPlayer.create(getActivity(), R.raw.buttonsound);
+        fondoSound = MediaPlayer.create(getActivity(), R.raw.fondomusic);
+        musica = getView().findViewById(R.id.ivSound);
+        fmFechas = getView().findViewById(R.id.frameLayout);
+        fmBoard = getView().findViewById(R.id.frameLayout2);
 
         if(music) {
             fondoSound.setLooping(true);
@@ -88,11 +89,11 @@ public class Joc extends AppCompatActivity {
             musica.setImageResource(R.drawable.mute);
         }
 
-        String data = getIntent().getExtras().getString("Jugador");
-        String data2 = getIntent().getExtras().getString("Jugador2","CPU");
-        temps = getIntent().getExtras().getBoolean("Temps",false);
-        numRows = getIntent().getExtras().getInt("Rows");
-        cpu = getIntent().getExtras().getBoolean("CPU",true);
+        String data = getActivity().getIntent().getExtras().getString("Jugador");
+        String data2 = getActivity().getIntent().getExtras().getString("Jugador2","CPU");
+        temps = getActivity().getIntent().getExtras().getBoolean("Temps",false);
+        numRows = getActivity().getIntent().getExtras().getInt("Rows");
+        cpu = getActivity().getIntent().getExtras().getBoolean("CPU",true);
 
 
         tvJug1.setText(data+":");
@@ -102,33 +103,36 @@ public class Joc extends AppCompatActivity {
 
         ROWS = numRows;
 
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) fmFechas.getLayoutParams();
+        /*ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) fmFechas.getLayoutParams();
         ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) fmBoard.getLayoutParams();
         ConstraintLayout.LayoutParams params3 = (ConstraintLayout.LayoutParams) fondoBoard.getLayoutParams();
-        int orientation = getResources().getConfiguration().orientation;
+        int orientation = getResources().getConfiguration().orientation;*/
 
-        if(ROWS == 6)fondoBoard.setImageResource(R.drawable.board);
-        else if(ROWS == 5) {
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                params.verticalBias = (float) 1;
-                params2.verticalBias = (float) 1.2;
-                params3.verticalBias = (float) 1.23;
+        if(ROWS == 6){
+            graella = new int[42];
+            for(int i=0; i<42; i++){
+                graella[i] = R.drawable.border;
             }
-            fondoBoard.setImageResource(R.drawable.board5);
+        }
+        else if(ROWS == 5) {
+            graella = new int[35];
+            for(int i=0; i<35; i++){
+                graella[i] = R.drawable.border;
+            }
         } else {
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                params.verticalBias = (float) 1;
-                params2.verticalBias = (float) 1.2;
-                params3.verticalBias = (float) 1.23;
+            graella = new int[28];
+            for(int i=0; i<28; i++){
+                graella[i] = R.drawable.border;
             }
         }
 
-        androidGridView = findViewById(R.id.gridview_android_example);
-        androidGridView2 = findViewById(R.id.gridview_android_example2);
+
+        androidGridView = getView().findViewById(R.id.gridview_android_example);
+        androidGridView2 = getView().findViewById(R.id.gridview_android_example2);
         androidGridView2.setNumColumns(COLUMNS);
-        b = new ImageAdapterGridView1(this);
+        b = new ImageAdapterGridView1(getActivity());
         androidGridView.setAdapter(b);
-        a = new ImageAdapterGridView2(this);
+        a = new ImageAdapterGridView2(getActivity());
         androidGridView2.setAdapter(a);
 
         game = new Game(ROWS,COLUMNS, TO_WIN);
@@ -190,9 +194,44 @@ public class Joc extends AppCompatActivity {
                 }
             }
         });
+        musica.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                if(music) {
+                    musica.setImageResource(R.drawable.mute);
+                    fondoSound.pause();
+                    music = false;
+                } else {
+                    musica.setImageResource(R.drawable.sound);
+                    fondoSound.start();
+                    music = true;
+                }
+            }
+        });
+
+        if(savedInstanceState != null){
+            graella = savedInstanceState.getIntArray("Graella");
+            imageIDs = savedInstanceState.getIntArray("Flecha");
+            tvTime.setText(savedInstanceState.getString("Time"));
+            cpu = savedInstanceState.getBoolean("Cpu");
+            temps = savedInstanceState.getBoolean("Temps");
+            jugadas = savedInstanceState.getIntegerArrayList("Jugadas");
+            music = savedInstanceState.getBoolean("Music");
+
+            if (!music) {
+                fondoSound.pause();
+                musica.setImageResource(R.drawable.mute);
+            }
+
+            empezar();
+            if(temps) {
+                cdt.cancel();
+                tiempo();
+            }
+        }
     }
 
-    public void paraMusica(View v){
+    /*public void paraMusica(View v){
         if(music) {
             musica.setImageResource(R.drawable.mute);
             fondoSound.pause();
@@ -202,11 +241,12 @@ public class Joc extends AppCompatActivity {
             fondoSound.start();
             music = true;
         }
-    }
+    }*/
+
     private void tiempo(){
         if(temps) {
             tvTime.setTextColor(Color.RED);
-            TextView tvTime2 = findViewById(R.id.tvTime2);
+            TextView tvTime2 = getView().findViewById(R.id.tvTime2);
             tvTime2.setTextColor(Color.RED);
 
             int mili = Integer.valueOf(tvTime.getText().toString()) * 1000;
@@ -234,11 +274,11 @@ public class Joc extends AppCompatActivity {
         return number <= 9 ? "0" + number : String.valueOf(number);
     }
     private void acabar(String text){
-        Intent a = new Intent(this, Resultats.class);
+        Intent a = new Intent(getActivity(), Resultats.class);
         a.putExtra("Result", text);
         startActivity(a);
         fondoSound.stop();
-        finish();
+        getActivity().finish();
     }
 
     public class ImageAdapterGridView1 extends BaseAdapter {
@@ -270,8 +310,8 @@ public class Joc extends AppCompatActivity {
                     // In landscape
                     mImageView.setLayoutParams(new GridView.LayoutParams(100, 100));
                     mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    mImageView.setPadding(20, 16, 20, 15);
-                    androidGridView.setColumnWidth(120);
+                    mImageView.setPadding(30, 16, 20, 15);
+                    androidGridView.setColumnWidth(125);
 
                 } else {
                     // In portrait
@@ -314,19 +354,19 @@ public class Joc extends AppCompatActivity {
             if (convertView == null) {
                 mImageView = new ImageView(mContext);
                 int orientation = getResources().getConfiguration().orientation;
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                /*if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     // In landscape
-                    mImageView.setLayoutParams(new GridView.LayoutParams(115, 115));
+                    mImageView.setLayoutParams(new GridView.LayoutParams(105, 105));
                     mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     mImageView.setPadding(20, 5, 20, 0);
                     androidGridView2.setColumnWidth(150);
 
-                } else {
+                } else {*/
                     // In portrait
-                    mImageView.setLayoutParams(new GridView.LayoutParams(133, 133));
+                    mImageView.setLayoutParams(new GridView.LayoutParams(115, 115));
                     mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     mImageView.setPadding(16, 5, 16, 0);
-                }
+                //}
 
             } else {
                 mImageView = (ImageView) convertView;
@@ -373,20 +413,20 @@ public class Joc extends AppCompatActivity {
         if (game.isFinished() || !game.canPlayColumn(column)) {
             if(Status.PLAYER1_WINS == game.getStatus()) {
 
-                Toast toast = Toasty.success(getBaseContext(), getString(R.string.winToast)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1), Toast.LENGTH_LONG, true);
+                Toast toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
                 mssg(1);
             }
             else if(Status.PLAYER2_WINS == game.getStatus()) {
                 Toast toast;
-                if(cpu) toast = Toasty.error(getBaseContext(), getString(R.string.loseToast), Toast.LENGTH_LONG, true);
-                else toast = Toasty.success(getBaseContext(), getString(R.string.winToast)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1), Toast.LENGTH_LONG, true);
+                if(cpu) toast = Toasty.error(getActivity().getBaseContext(), getString(R.string.loseToast), Toast.LENGTH_LONG, true);
+                else toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
                 mssg(2);
             } else if(Status.DRAW == game.getStatus()) {
-                Toast toast = Toasty.info(getBaseContext(), getString(R.string.draw), Toast.LENGTH_LONG, true);
+                Toast toast = Toasty.info(getActivity().getBaseContext(), getString(R.string.draw), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
                 mssg(3);
@@ -408,7 +448,7 @@ public class Joc extends AppCompatActivity {
         fondoSound.pause();
     }
 
-    @Override
+    /*@Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         graella = savedInstanceState.getIntArray("Graella");
@@ -429,7 +469,7 @@ public class Joc extends AppCompatActivity {
             cdt.cancel();
             tiempo();
         }
-    }
+    }*/
 
     private void empezar(){
         for(int a = 0; a < jugadas.size(); a++){
