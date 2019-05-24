@@ -1,4 +1,4 @@
-package com.example.marc.connect4;
+package com.example.marc.connect4.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.marc.connect4.Game.Game;
+import com.example.marc.connect4.Game.Log;
+import com.example.marc.connect4.Game.Move;
+import com.example.marc.connect4.Game.Status;
+import com.example.marc.connect4.Pantalles.Resultats;
+import com.example.marc.connect4.R;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,10 +49,11 @@ public class JocFragment extends Fragment {
     FrameLayout fmBoard;
     CountDownTimer cdt;
 
-
     private int ROWS    = 6;
     private static final int COLUMNS = 7;
     private static final int TO_WIN  = 4;
+
+    Log log;
 
     private Game game;
 
@@ -67,13 +75,14 @@ public class JocFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.activity_joc, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        tvJug1 = getView().findViewById(R.id.tvJugador);
+        tvJug1 = getView().findViewById(R.id.tvJug);
         tvJug2 = getView().findViewById(R.id.tvJugador2);
         tvTime = getView().findViewById(R.id.tvTime);
         buttonSound = MediaPlayer.create(getActivity(), R.raw.buttonsound);
@@ -275,7 +284,9 @@ public class JocFragment extends Fragment {
     }
     private void acabar(String text){
         Intent a = new Intent(getActivity(), Resultats.class);
-        a.putExtra("Result", text);
+        Bundle b = new Bundle();
+        b.putParcelable("Log", log);
+        a.putExtras(b);
         startActivity(a);
         fondoSound.stop();
         getActivity().finish();
@@ -416,12 +427,35 @@ public class JocFragment extends Fragment {
                 Toast toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
+
+                if(cpu) {
+                    log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
+                            "", "", String.valueOf(ROWS),
+                            tvTime.getText().toString(), "Has guanyat " + tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1), "Marc: 4x4\nCPU: 5x5");
+                } else {
+                    log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
+                            tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),"", String.valueOf(ROWS),
+                            tvTime.getText().toString(),"Has guanyat  "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
+                            "Marc: 4x4\nCPU: 5x5");
+                }
+
                 mssg(1);
             }
             else if(Status.PLAYER2_WINS == game.getStatus()) {
                 Toast toast;
-                if(cpu) toast = Toasty.error(getActivity().getBaseContext(), getString(R.string.loseToast), Toast.LENGTH_LONG, true);
-                else toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1), Toast.LENGTH_LONG, true);
+                if(cpu) {
+                    toast = Toasty.error(getActivity().getBaseContext(), getString(R.string.loseToast), Toast.LENGTH_LONG, true);
+                    log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
+                            "","", String.valueOf(ROWS),
+                            tvTime.getText().toString(),"Has perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),"Marc: 4x4\nCPU: 5x5");
+                }
+                else {
+                    toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1), Toast.LENGTH_LONG, true);
+                    log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
+                            tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),"", String.valueOf(ROWS),
+                            tvTime.getText().toString(),"Has guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),
+                            "Marc: 4x4\nCPU: 5x5");
+                }
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
                 mssg(2);
@@ -429,6 +463,14 @@ public class JocFragment extends Fragment {
                 Toast toast = Toasty.info(getActivity().getBaseContext(), getString(R.string.draw), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
+                if(cpu) {
+                    log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
+                            "","", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", "Marc: 4x4\nCPU: 5x5");
+                } else {
+                    log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
+                            tvJug2.getText().toString().substring(0, tvJug2.getText().length() - 1),
+                            "", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", "Marc: 4x4\nCPU: 5x5");
+                }
                 mssg(3);
             }
         }

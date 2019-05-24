@@ -9,14 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".PantallaJoc"></activity>
-        <activity android:name=".Resultats" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        <activity android:name=".ConfiguracioPartida" />
-        <activity android:name=".JocFragment" />
-        <activity android:name=".Ajuda" />
-        <activity android:name=".ConfiguracioPredeterminada"/>
-        <activity android:name=".Inicio" android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".Pantalles.BDDresults"></activity>
+        <activity android:name=".Pantalles.PantallaJoc" />
+        <activity
+            android:name=".Pantalles.Resultats"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".Pantalles.ConfiguracioPartida" />
+        <activity android:name=".Pantalles.Ajuda" />
+        <activity android:name=".SharedPreferences.ConfiguracioPredeterminada" />
+        <activity
+            android:name=".Pantalles.Inicio"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".Pantalles.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

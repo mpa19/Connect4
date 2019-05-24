@@ -1,4 +1,4 @@
-package com.example.marc.connect4;
+package com.example.marc.connect4.Game;
 
 public class Direction {
 

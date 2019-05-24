@@ -1,7 +1,8 @@
-package com.example.marc.connect4;
+package com.example.marc.connect4.Pantalles;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,21 +12,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.marc.connect4.SharedPreferences.ConfiguracioPredeterminada;
+import com.example.marc.connect4.R;
+import com.example.marc.connect4.Sqlite3.DatabaseHelper;
+
 import es.dmoral.toasty.Toasty;
 
 public class Inicio extends AppCompatActivity {
     MediaPlayer buttonSound;
+    DatabaseHelper bh;
+    SQLiteDatabase bd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
         buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
+
     }
 
     void gotoAjuda(View v){
         buttonSound.start();
-        Intent a = new Intent(this, Ajuda.class);
+        Intent a = new Intent(this, BDDresults.class);
         startActivity(a);
     }
 

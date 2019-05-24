@@ -1,7 +1,9 @@
-package com.example.marc.connect4;
+package com.example.marc.connect4.Pantalles;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.marc.connect4.Game.Log;
+import com.example.marc.connect4.SharedPreferences.ConfiguracioPredeterminada;
+import com.example.marc.connect4.R;
+import com.example.marc.connect4.Sqlite3.DatabaseHelper;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,6 +31,10 @@ public class Resultats extends AppCompatActivity {
     EditText email;
     TextView resultat;
     MediaPlayer buttonSound;
+    DatabaseHelper dh;
+    SQLiteDatabase db;
+    String currentDateandTime;
+    Log log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +43,29 @@ public class Resultats extends AppCompatActivity {
         TextView fecha = findViewById(R.id.tvData);
         resultat = findViewById(R.id.tvResultat);
         email = findViewById(R.id.etNom3);
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-
+        currentDateandTime = sdf.format(new Date());
         fecha.setText(currentDateandTime);
-        resultat.setText(getIntent().getExtras().getString("Result"));
-        buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
-    }
 
+        Bundle bundle = getIntent().getExtras();
+        log = bundle.getParcelable("Log");
+
+        if(log.getTiempo().equals("50")){
+            resultat.setText(log.getResultado());
+        } else resultat.setText(log.getResultado()+" y han sobrats "+log.getTiempo()+" secs");
+
+        buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
+        guardar();
+    }
+    void guardar() {
+        dh = new DatabaseHelper(this);
+        String vs;
+        if(!log.getJugador2().equals("")) vs = "VS "+log.getJugador2();
+        else vs = log.getJugador2();
+        dh.addResult(log.getJugador1(), vs, currentDateandTime, log.getGraella(), log.getTiempo(), log.getResultado(), log.getMovimientos());
+
+    }
     void gotoSortir(View v){
         buttonSound.start();
         finish();

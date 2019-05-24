@@ -55,15 +55,12 @@
         <item>5</item>
         <item>4</item>
     </string-array>
-    <string name="aliasMenu">Player 1</string>
-    <string name="aliasMenu2">Player 2 (If you want PvP)</string>
-    <string name="boardMenu">Board</string>
-    <string name="timeMenu">Time control</string>
-    <string name="settingsMenu">Settings</string>
-    <string name="boardSize">Board size:</string>
-    <string name="playerIdentifier">Identifying player 1:</string>
-    <string name="playerIdentifier2">Identifying player 2:</string>
-
-
-
+    <string name="aliasMenu">Jugador 1</string>
+    <string name="aliasMenu2">Jugador 2 (Si vols PvP)</string>
+    <string name="boardMenu">Graella</string>
+    <string name="timeMenu">Control del temps</string>
+    <string name="settingsMenu">Configuració</string>
+    <string name="boardSize">Mida graella:</string>
+    <string name="playerIdentifier">Nom jugador 1:</string>
+    <string name="playerIdentifier2">Nom jugador 2:</string>
 </resources>

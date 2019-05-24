@@ -1,7 +1,4 @@
-package com.example.marc.connect4;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package com.example.marc.connect4.Game;
 
 public class Game {
 

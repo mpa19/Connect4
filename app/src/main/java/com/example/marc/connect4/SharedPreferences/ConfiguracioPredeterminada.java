@@ -1,7 +1,10 @@
-package com.example.marc.connect4;
+package com.example.marc.connect4.SharedPreferences;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.marc.connect4.R;
+import com.example.marc.connect4.SharedPreferences.PreferenceFragment;
 
 public class ConfiguracioPredeterminada extends AppCompatActivity {
 

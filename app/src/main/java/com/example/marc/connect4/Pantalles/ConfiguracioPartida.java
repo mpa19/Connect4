@@ -1,4 +1,4 @@
-package com.example.marc.connect4;
+package com.example.marc.connect4.Pantalles;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import com.example.marc.connect4.R;
 
 import es.dmoral.toasty.Toasty;
 
