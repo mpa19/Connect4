@@ -21,7 +21,7 @@
             android:name="com.example.marc.connect4.Fragments.JocFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".70"
+            android:layout_weight=".60"
             android:screenOrientation="landscape"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,15 +29,15 @@
             tools:layout="@layout/activity_joc" />
 
         <fragment
-            android:id="@+id/fragment3"
-            android:name="com.example.marc.connect4.Fragments.JocFragment"
+            android:id="@+id/logFragment"
+            android:name="com.example.marc.connect4.Fragments.LogFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".30"
+            android:layout_weight=".40"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout="@layout/activity_joc" />
+            tools:layout="@layout/fragment_log" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

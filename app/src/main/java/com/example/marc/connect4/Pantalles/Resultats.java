@@ -51,7 +51,7 @@ public class Resultats extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         log = bundle.getParcelable("Log");
 
-        if(log.getTiempo().equals("50")){
+        if(log.getTiempo().equals("50") || log.getTiempo().equals("-1")){
             resultat.setText(log.getResultado());
         } else resultat.setText(log.getResultado()+" y han sobrats "+log.getTiempo()+" secs");
 

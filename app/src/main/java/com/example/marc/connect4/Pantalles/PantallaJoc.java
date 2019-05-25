@@ -3,6 +3,7 @@ package com.example.marc.connect4.Pantalles;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.marc.connect4.Fragments.JocFragment;
 import com.example.marc.connect4.R;
 
 public class PantallaJoc extends AppCompatActivity {
@@ -11,5 +12,6 @@ public class PantallaJoc extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pantalla_joc);
+
     }
 }

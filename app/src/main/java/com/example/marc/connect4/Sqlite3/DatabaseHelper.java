@@ -64,5 +64,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return bd.rawQuery(query, null);
     }
 
+    public Cursor getMoviments(String where){
+        SQLiteDatabase bd = this.getReadableDatabase();
+        String query = "SELECT * FROM Logs WHERE _id = "+where+";";
+        return bd.rawQuery(query, null);
+    }
+
 
 }

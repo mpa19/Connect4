@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -48,6 +49,7 @@ public class JocFragment extends Fragment {
     FrameLayout fmFechas;
     FrameLayout fmBoard;
     CountDownTimer cdt;
+    String moviments = "";
 
     private int ROWS    = 6;
     private static final int COLUMNS = 7;
@@ -71,13 +73,14 @@ public class JocFragment extends Fragment {
 
     int[] graella;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.activity_joc, container, false);
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -98,12 +101,20 @@ public class JocFragment extends Fragment {
             musica.setImageResource(R.drawable.mute);
         }
 
+        String configuracio = "";
+
         String data = getActivity().getIntent().getExtras().getString("Jugador");
         String data2 = getActivity().getIntent().getExtras().getString("Jugador2","CPU");
         temps = getActivity().getIntent().getExtras().getBoolean("Temps",false);
         numRows = getActivity().getIntent().getExtras().getInt("Rows");
         cpu = getActivity().getIntent().getExtras().getBoolean("CPU",true);
 
+        configuracio = "Jugador1: "+data+"\nJugador2: "+data2;
+        if(temps) configuracio = configuracio + "\nControlador de temps: actiu";
+        else configuracio = configuracio + "\nControlador de temps: desactivat";
+
+        configuracio = configuracio+"\nGraella: "+numRows+"x7";
+        sendConf(configuracio);
 
         tvJug1.setText(data+":");
         tvJug2.setText(data2+":");
@@ -111,11 +122,6 @@ public class JocFragment extends Fragment {
         tiempo();
 
         ROWS = numRows;
-
-        /*ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) fmFechas.getLayoutParams();
-        ConstraintLayout.LayoutParams params2 = (ConstraintLayout.LayoutParams) fmBoard.getLayoutParams();
-        ConstraintLayout.LayoutParams params3 = (ConstraintLayout.LayoutParams) fondoBoard.getLayoutParams();
-        int orientation = getResources().getConfiguration().orientation;*/
 
         if(ROWS == 6){
             graella = new int[42];
@@ -134,6 +140,7 @@ public class JocFragment extends Fragment {
                 graella[i] = R.drawable.border;
             }
         }
+
 
 
         androidGridView = getView().findViewById(R.id.gridview_android_example);
@@ -157,6 +164,10 @@ public class JocFragment extends Fragment {
                         Move move = game.play(position);
                         int row = move.getPosition().getRow();
                         int posi = row * 7 + position;
+
+                        sendData(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1)+": "+(row+1)+"x"+(position+1));
+                        moviments = moviments+"\n"+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1)+": "+(row+1)+"x"+(position+1);
+
                         graella[posi] = R.drawable.rojo;
                         for(int a = 0; a < COLUMNS; a++) {
                             imageIDs[a] = R.drawable.flecha2;
@@ -165,16 +176,20 @@ public class JocFragment extends Fragment {
                         Move move = game.play(position);
                         int row = move.getPosition().getRow();
                         int posi = row * 7 + position;
+
+                        sendData(tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1)+": "+(row+1)+"x"+(position+1));
+                        moviments = moviments+"\n"+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1)+": "+(row+1)+"x"+(position+1);
+
                         graella[posi] = R.drawable.amarillo;
                         for(int a = 0; a < COLUMNS; a++){
                             imageIDs[a] = R.drawable.flecha;
                         }
                     }
+
                     jugadas.add(position);
                     androidGridView.setAdapter(b);
                     androidGridView2.setAdapter(a);
                     updateCurrent(position);
-
 
                     if(cpu) {
                         if (game.isFinished()) return;
@@ -191,6 +206,8 @@ public class JocFragment extends Fragment {
                                 androidGridView.setAdapter(b);
                                 jugadas.add(i1);
 
+                                sendData(tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1)+": "+(row1+1)+"x"+(i1+1));
+                                moviments = moviments+"\n"+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1)+": "+(row1+1)+"x"+(i1+1);
 
                                 for(int a = 0; a < COLUMNS; a++) {
                                     imageIDs[a] = R.drawable.flecha;
@@ -226,6 +243,7 @@ public class JocFragment extends Fragment {
             temps = savedInstanceState.getBoolean("Temps");
             jugadas = savedInstanceState.getIntegerArrayList("Jugadas");
             music = savedInstanceState.getBoolean("Music");
+            moviments = savedInstanceState.getString("Moviments");
 
             if (!music) {
                 fondoSound.pause();
@@ -238,19 +256,9 @@ public class JocFragment extends Fragment {
                 tiempo();
             }
         }
+
     }
 
-    /*public void paraMusica(View v){
-        if(music) {
-            musica.setImageResource(R.drawable.mute);
-            fondoSound.pause();
-            music = false;
-        } else {
-            musica.setImageResource(R.drawable.sound);
-            fondoSound.start();
-            music = true;
-        }
-    }*/
 
     private void tiempo(){
         if(temps) {
@@ -264,6 +272,9 @@ public class JocFragment extends Fragment {
                 int time = Integer.valueOf(tvTime.getText().toString());
                 public void onTick(long millisUntilFinished) {
                     tvTime.setText(checkDigit(time));
+                    sendData("                          Temps: "+tvTime.getText().toString());
+                    moviments = moviments+"\n                          Temps: "+tvTime.getText().toString();
+
                     time--;
                     if(game.isFinished()){
                         timer = false;
@@ -272,7 +283,22 @@ public class JocFragment extends Fragment {
                 }
 
                 public void onFinish() {
-                    if(timer) acabar("El temps s'ha esgotat");
+                    if(timer) {
+                        sendData("El temps s'ha esgotat");
+                        moviments = moviments+"\n"+"El temps s'ha esgotat";
+
+                        if(!cpu) {
+                            log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
+                                    tvJug2.getText().toString().substring(0, tvJug2.getText().length() - 1), "", String.valueOf(ROWS),
+                                    "-1", "El temps s'ha esgotat", moviments);
+                        } else {
+                            log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
+                                    "", "", String.valueOf(ROWS),
+                                    "-1", "El temps s'ha esgotat", moviments);
+
+                        }
+                        acabar("El temps s'ha esgotat");
+                    }
                 }
 
             }.start();
@@ -322,7 +348,6 @@ public class JocFragment extends Fragment {
                     mImageView.setLayoutParams(new GridView.LayoutParams(100, 100));
                     mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     mImageView.setPadding(30, 16, 20, 15);
-                    androidGridView.setColumnWidth(125);
 
                 } else {
                     // In portrait
@@ -364,21 +389,9 @@ public class JocFragment extends Fragment {
 
             if (convertView == null) {
                 mImageView = new ImageView(mContext);
-                int orientation = getResources().getConfiguration().orientation;
-                /*if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    // In landscape
-                    mImageView.setLayoutParams(new GridView.LayoutParams(105, 105));
-                    mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    mImageView.setPadding(20, 5, 20, 0);
-                    androidGridView2.setColumnWidth(150);
-
-                } else {*/
-                    // In portrait
-                    mImageView.setLayoutParams(new GridView.LayoutParams(115, 115));
-                    mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    mImageView.setPadding(16, 5, 16, 0);
-                //}
-
+                mImageView.setLayoutParams(new GridView.LayoutParams(115, 115));
+                mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                mImageView.setPadding(16, 5, 16, 0);
             } else {
                 mImageView = (ImageView) convertView;
             }
@@ -427,17 +440,18 @@ public class JocFragment extends Fragment {
                 Toast toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
-
+                moviments = moviments+"\nHas guanyat  "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1);
                 if(cpu) {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
                             "", "", String.valueOf(ROWS),
-                            tvTime.getText().toString(), "Has guanyat " + tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1), "Marc: 4x4\nCPU: 5x5");
+                            tvTime.getText().toString(), "Has guanyat " + tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1), moviments);
                 } else {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
                             tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),"", String.valueOf(ROWS),
                             tvTime.getText().toString(),"Has guanyat  "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
-                            "Marc: 4x4\nCPU: 5x5");
+                            moviments);
                 }
+                sendData("Has guanyat  "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
 
                 mssg(1);
             }
@@ -445,16 +459,22 @@ public class JocFragment extends Fragment {
                 Toast toast;
                 if(cpu) {
                     toast = Toasty.error(getActivity().getBaseContext(), getString(R.string.loseToast), Toast.LENGTH_LONG, true);
+                    moviments = moviments+"\nHas perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1);
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
                             "","", String.valueOf(ROWS),
-                            tvTime.getText().toString(),"Has perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),"Marc: 4x4\nCPU: 5x5");
+                            tvTime.getText().toString(),"Has perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),moviments);
+                    sendData("Has perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
+
                 }
                 else {
                     toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1), Toast.LENGTH_LONG, true);
+                    moviments = moviments+"\nHas guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1);
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
                             tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),"", String.valueOf(ROWS),
                             tvTime.getText().toString(),"Has guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),
-                            "Marc: 4x4\nCPU: 5x5");
+                            moviments);
+                    sendData("Has guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1));
+
                 }
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
@@ -463,14 +483,17 @@ public class JocFragment extends Fragment {
                 Toast toast = Toasty.info(getActivity().getBaseContext(), getString(R.string.draw), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
+                moviments = moviments+"\nHeu quedat empat";
                 if(cpu) {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
-                            "","", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", "Marc: 4x4\nCPU: 5x5");
+                            "","", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", moviments);
+
                 } else {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
                             tvJug2.getText().toString().substring(0, tvJug2.getText().length() - 1),
-                            "", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", "Marc: 4x4\nCPU: 5x5");
+                            "", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", moviments);
                 }
+                sendData("Heu quedat empat");
                 mssg(3);
             }
         }
@@ -486,32 +509,24 @@ public class JocFragment extends Fragment {
         savedInstanceState.putBoolean("Temps", temps);
         savedInstanceState.putIntegerArrayList("Jugadas", jugadas);
         savedInstanceState.putBoolean("Music", music);
+        savedInstanceState.putString("Moviments", moviments);
         if(temps) cdt.cancel();
         fondoSound.pause();
     }
 
-    /*@Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        graella = savedInstanceState.getIntArray("Graella");
-        imageIDs = savedInstanceState.getIntArray("Flecha");
-        tvTime.setText(savedInstanceState.getString("Time"));
-        cpu = savedInstanceState.getBoolean("Cpu");
-        temps = savedInstanceState.getBoolean("Temps");
-        jugadas = savedInstanceState.getIntegerArrayList("Jugadas");
-        music = savedInstanceState.getBoolean("Music");
 
-        if (!music) {
-            fondoSound.pause();
-            musica.setImageResource(R.drawable.mute);
-        }
+    public void sendData(String text) {
+        LogFragment logFragment = (LogFragment) getFragmentManager().findFragmentById(R.id.logFragment);
+        if (logFragment != null && logFragment.isInLayout())
+            logFragment.putLog(text);
+    }
 
-        empezar();
-        if(temps) {
-            cdt.cancel();
-            tiempo();
-        }
-    }*/
+    public void sendConf(String text) {
+        LogFragment logFragment = (LogFragment) getFragmentManager().findFragmentById(R.id.logFragment);
+        if (logFragment != null && logFragment.isInLayout())
+            logFragment.putConfig(text);
+    }
+
 
     private void empezar(){
         for(int a = 0; a < jugadas.size(); a++){
@@ -519,5 +534,4 @@ public class JocFragment extends Fragment {
             updateCurrent(jugadas.get(a));
         }
     }
-
 }

@@ -63,4 +63,8 @@
     <string name="boardSize">Mida graella:</string>
     <string name="playerIdentifier">Nom jugador 1:</string>
     <string name="playerIdentifier2">Nom jugador 2:</string>
+    <string name="moviments">· Moviments:</string>
+    <string name="config">· Configuració:</string>
+
+
 </resources>
