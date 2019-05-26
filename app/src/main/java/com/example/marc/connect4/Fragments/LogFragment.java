@@ -25,11 +25,13 @@ public class LogFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             textView.setText(savedInstanceState.getString(PARCEL_FRAG_LOG));
+            textView2.setText(savedInstanceState.getString(PARCEL_FRAG_LOG2));
+        }
     }
 
     @Override
@@ -38,6 +40,7 @@ public class LogFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_log, container, false);
         textView = view.findViewById(R.id.textLog);
         textView2 = view.findViewById(R.id.textConf);
+
         return view;
     }
 

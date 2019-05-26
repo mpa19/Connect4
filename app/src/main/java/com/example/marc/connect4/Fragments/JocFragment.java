@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -54,6 +53,19 @@ public class JocFragment extends Fragment {
     private int ROWS    = 6;
     private static final int COLUMNS = 7;
     private static final int TO_WIN  = 4;
+
+    private static final String KEY_JUGADOR1 = "Jugador1";
+    private static final String KEY_JUGADOR2 = "Jugador2";
+    private static final String KEY_TEMPS = "Temps";
+    private static final String KEY_ROWS = "Rows";
+    private static final String KEY_CPU = "CPU";
+    private static final String KEY_GRAELLA = "Graella";
+    private static final String KEY_FLECHA = "Flecha";
+    private static final String KEY_TIME = "Time";
+    private static final String KEY_JUGADAS = "Jugadas";
+    private static final String KEY_MUSIC = "Music";
+    private static final String KEY_MOVIMENTS = "Moviments";
+    private static final String KEY_LOG = "Log";
 
     Log log;
 
@@ -103,17 +115,17 @@ public class JocFragment extends Fragment {
 
         String configuracio = "";
 
-        String data = getActivity().getIntent().getExtras().getString("Jugador");
-        String data2 = getActivity().getIntent().getExtras().getString("Jugador2","CPU");
-        temps = getActivity().getIntent().getExtras().getBoolean("Temps",false);
-        numRows = getActivity().getIntent().getExtras().getInt("Rows");
-        cpu = getActivity().getIntent().getExtras().getBoolean("CPU",true);
+        String data = getActivity().getIntent().getExtras().getString(KEY_JUGADOR1);
+        String data2 = getActivity().getIntent().getExtras().getString(KEY_JUGADOR2,KEY_CPU);
+        temps = getActivity().getIntent().getExtras().getBoolean(KEY_TEMPS,false);
+        numRows = getActivity().getIntent().getExtras().getInt(KEY_ROWS);
+        cpu = getActivity().getIntent().getExtras().getBoolean(KEY_CPU,true);
 
-        configuracio = "Jugador1: "+data+"\nJugador2: "+data2;
-        if(temps) configuracio = configuracio + "\nControlador de temps: actiu";
-        else configuracio = configuracio + "\nControlador de temps: desactivat";
+        configuracio = KEY_JUGADOR1+": "+data+"\n"+KEY_JUGADOR2+": "+data2;
+        if(temps) configuracio = configuracio + "\n"+getString(R.string.controlActiu);
+        else configuracio = configuracio + "\n"+getString(R.string.controlDesc);
 
-        configuracio = configuracio+"\nGraella: "+numRows+"x7";
+        configuracio = configuracio+"\n"+getString(R.string.graella1)+numRows+"x7";
         sendConf(configuracio);
 
         tvJug1.setText(data+":");
@@ -140,8 +152,6 @@ public class JocFragment extends Fragment {
                 graella[i] = R.drawable.border;
             }
         }
-
-
 
         androidGridView = getView().findViewById(R.id.gridview_android_example);
         androidGridView2 = getView().findViewById(R.id.gridview_android_example2);
@@ -236,14 +246,14 @@ public class JocFragment extends Fragment {
         });
 
         if(savedInstanceState != null){
-            graella = savedInstanceState.getIntArray("Graella");
-            imageIDs = savedInstanceState.getIntArray("Flecha");
-            tvTime.setText(savedInstanceState.getString("Time"));
-            cpu = savedInstanceState.getBoolean("Cpu");
-            temps = savedInstanceState.getBoolean("Temps");
-            jugadas = savedInstanceState.getIntegerArrayList("Jugadas");
-            music = savedInstanceState.getBoolean("Music");
-            moviments = savedInstanceState.getString("Moviments");
+            graella = savedInstanceState.getIntArray(KEY_GRAELLA);
+            imageIDs = savedInstanceState.getIntArray(KEY_FLECHA);
+            tvTime.setText(savedInstanceState.getString(KEY_TIME));
+            cpu = savedInstanceState.getBoolean(KEY_CPU);
+            temps = savedInstanceState.getBoolean(KEY_TEMPS);
+            jugadas = savedInstanceState.getIntegerArrayList(KEY_JUGADAS);
+            music = savedInstanceState.getBoolean(KEY_MUSIC);
+            moviments = savedInstanceState.getString(KEY_MOVIMENTS);
 
             if (!music) {
                 fondoSound.pause();
@@ -259,7 +269,6 @@ public class JocFragment extends Fragment {
 
     }
 
-
     private void tiempo(){
         if(temps) {
             tvTime.setTextColor(Color.RED);
@@ -272,8 +281,8 @@ public class JocFragment extends Fragment {
                 int time = Integer.valueOf(tvTime.getText().toString());
                 public void onTick(long millisUntilFinished) {
                     tvTime.setText(checkDigit(time));
-                    sendData("                          Temps: "+tvTime.getText().toString());
-                    moviments = moviments+"\n                          Temps: "+tvTime.getText().toString();
+                    sendData("                          "+KEY_TEMPS+": "+tvTime.getText().toString());
+                    moviments = moviments+"\n                          "+KEY_TEMPS+": "+tvTime.getText().toString();
 
                     time--;
                     if(game.isFinished()){
@@ -284,20 +293,20 @@ public class JocFragment extends Fragment {
 
                 public void onFinish() {
                     if(timer) {
-                        sendData("El temps s'ha esgotat");
-                        moviments = moviments+"\n"+"El temps s'ha esgotat";
+                        sendData(getString(R.string.esgotat));
+                        moviments = moviments+"\n"+getString(R.string.esgotat);
 
                         if(!cpu) {
                             log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
                                     tvJug2.getText().toString().substring(0, tvJug2.getText().length() - 1), "", String.valueOf(ROWS),
-                                    "-1", "El temps s'ha esgotat", moviments);
+                                    "-1", getString(R.string.esgotat), moviments);
                         } else {
                             log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
                                     "", "", String.valueOf(ROWS),
-                                    "-1", "El temps s'ha esgotat", moviments);
+                                    "-1", getString(R.string.esgotat), moviments);
 
                         }
-                        acabar("El temps s'ha esgotat");
+                        acabar(getString(R.string.esgotat));
                     }
                 }
 
@@ -311,13 +320,16 @@ public class JocFragment extends Fragment {
     private void acabar(String text){
         Intent a = new Intent(getActivity(), Resultats.class);
         Bundle b = new Bundle();
-        b.putParcelable("Log", log);
+        b.putParcelable(KEY_LOG, log);
         a.putExtras(b);
         startActivity(a);
         fondoSound.stop();
         getActivity().finish();
     }
 
+    /*
+        Items flecha
+     */
     public class ImageAdapterGridView1 extends BaseAdapter {
         private Context mContext;
 
@@ -363,7 +375,13 @@ public class JocFragment extends Fragment {
             return mImageView;
         }
     }
+    /*
+        Final items flecha
+     */
 
+    /*
+        Items de la graella
+     */
     public class ImageAdapterGridView2 extends BaseAdapter {
         private Context mContext;
 
@@ -401,6 +419,10 @@ public class JocFragment extends Fragment {
             return mImageView;
         }
     }
+    /*
+        Final items graella
+     */
+
     private void mssg(final int i){
         Thread thread = new Thread(){
             @Override
@@ -440,18 +462,18 @@ public class JocFragment extends Fragment {
                 Toast toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
-                moviments = moviments+"\nHas guanyat  "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1);
+                moviments = moviments+"\n"+getString(R.string.guanyat)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1);
                 if(cpu) {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
                             "", "", String.valueOf(ROWS),
-                            tvTime.getText().toString(), "Has guanyat " + tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1), moviments);
+                            tvTime.getText().toString(), getString(R.string.guanyat) + tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1), moviments);
                 } else {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
                             tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),"", String.valueOf(ROWS),
-                            tvTime.getText().toString(),"Has guanyat  "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
+                            tvTime.getText().toString(),getString(R.string.guanyat)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
                             moviments);
                 }
-                sendData("Has guanyat  "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
+                sendData(getString(R.string.guanyat)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
 
                 mssg(1);
             }
@@ -459,21 +481,21 @@ public class JocFragment extends Fragment {
                 Toast toast;
                 if(cpu) {
                     toast = Toasty.error(getActivity().getBaseContext(), getString(R.string.loseToast), Toast.LENGTH_LONG, true);
-                    moviments = moviments+"\nHas perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1);
+                    moviments = moviments+"\n"+getString(R.string.perdut)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1);
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
                             "","", String.valueOf(ROWS),
-                            tvTime.getText().toString(),"Has perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),moviments);
-                    sendData("Has perdut "+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
+                            tvTime.getText().toString(),getString(R.string.perdut)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),moviments);
+                    sendData(getString(R.string.perdut)+tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1));
 
                 }
                 else {
                     toast = Toasty.success(getActivity().getBaseContext(), getString(R.string.winToast)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1), Toast.LENGTH_LONG, true);
-                    moviments = moviments+"\nHas guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1);
+                    moviments = moviments+"\n"+getString(R.string.guanyat)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1);
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length()-1),
                             tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),"", String.valueOf(ROWS),
-                            tvTime.getText().toString(),"Has guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),
+                            tvTime.getText().toString(),getString(R.string.guanyat)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1),
                             moviments);
-                    sendData("Has guanyat "+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1));
+                    sendData(getString(R.string.guanyat)+tvJug2.getText().toString().substring(0, tvJug2.getText().length()-1));
 
                 }
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
@@ -483,17 +505,17 @@ public class JocFragment extends Fragment {
                 Toast toast = Toasty.info(getActivity().getBaseContext(), getString(R.string.draw), Toast.LENGTH_LONG, true);
                 toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                 toast.show();
-                moviments = moviments+"\nHeu quedat empat";
+                moviments = moviments+"\n"+getString(R.string.draw);
                 if(cpu) {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
-                            "","", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", moviments);
+                            "","", String.valueOf(ROWS), tvTime.getText().toString(), getString(R.string.draw), moviments);
 
                 } else {
                     log = new Log(tvJug1.getText().toString().substring(0, tvJug1.getText().length() - 1),
                             tvJug2.getText().toString().substring(0, tvJug2.getText().length() - 1),
-                            "", String.valueOf(ROWS), tvTime.getText().toString(), "Heu quedat empat", moviments);
+                            "", String.valueOf(ROWS), tvTime.getText().toString(), getString(R.string.draw), moviments);
                 }
-                sendData("Heu quedat empat");
+                sendData(getString(R.string.draw));
                 mssg(3);
             }
         }
@@ -502,14 +524,14 @@ public class JocFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putIntArray("Graella", graella);
-        savedInstanceState.putIntArray("Flecha", imageIDs);
-        savedInstanceState.putString("Time", tvTime.getText().toString());
-        savedInstanceState.putBoolean("Cpu", cpu);
-        savedInstanceState.putBoolean("Temps", temps);
-        savedInstanceState.putIntegerArrayList("Jugadas", jugadas);
-        savedInstanceState.putBoolean("Music", music);
-        savedInstanceState.putString("Moviments", moviments);
+        savedInstanceState.putIntArray(KEY_GRAELLA, graella);
+        savedInstanceState.putIntArray(KEY_FLECHA, imageIDs);
+        savedInstanceState.putString(KEY_TIME, tvTime.getText().toString());
+        savedInstanceState.putBoolean(KEY_CPU, cpu);
+        savedInstanceState.putBoolean(KEY_TEMPS, temps);
+        savedInstanceState.putIntegerArrayList(KEY_JUGADAS, jugadas);
+        savedInstanceState.putBoolean(KEY_MUSIC, music);
+        savedInstanceState.putString(KEY_MOVIMENTS, moviments);
         if(temps) cdt.cancel();
         fondoSound.pause();
     }

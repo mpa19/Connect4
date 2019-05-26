@@ -65,6 +65,16 @@
     <string name="playerIdentifier2">Nom jugador 2:</string>
     <string name="moviments">· Moviments:</string>
     <string name="config">· Configuració:</string>
+    <string name="controlActiu">Controlador del temps: activat</string>
+    <string name="controlDesc">Controlador del temps: desactivat</string>
+    <string name="graella1">Graella: &#160;</string>
+    <string name="guanyat">Has guanyat &#160;</string>
+    <string name="perdut">Has perdut &#160;</string>
+    <string name="sobrat">&#160; y han sobrat &#160;</string>
+    <string name="emailRes">Resultats de connect4</string>
+    <string name="esgotat">El temps s"'"ha esgotat</string>
+
+
 
 
 </resources>

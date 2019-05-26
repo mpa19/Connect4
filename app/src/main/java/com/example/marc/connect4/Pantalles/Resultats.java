@@ -1,6 +1,5 @@
 package com.example.marc.connect4.Pantalles;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,6 +35,14 @@ public class Resultats extends AppCompatActivity {
     String currentDateandTime;
     Log log;
 
+    private static final String KEY_LOG = "Log";
+    private static final String KEY_JUGADOR1 = "Jugador1";
+    private static final String KEY_JUGADOR2 = "Jugador2";
+    private static final String KEY_TEMPS = "Temps";
+    private static final String KEY_ROWS = "Rows";
+    private static final String KEY_CPU = "CPU";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +56,11 @@ public class Resultats extends AppCompatActivity {
         fecha.setText(currentDateandTime);
 
         Bundle bundle = getIntent().getExtras();
-        log = bundle.getParcelable("Log");
+        log = bundle.getParcelable(KEY_LOG);
 
         if(log.getTiempo().equals("50") || log.getTiempo().equals("-1")){
             resultat.setText(log.getResultado());
-        } else resultat.setText(log.getResultado()+" y han sobrats "+log.getTiempo()+" secs");
+        } else resultat.setText(log.getResultado()+getString(R.string.sobrat)+log.getTiempo()+" secs");
 
         buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
         guardar();
@@ -80,12 +87,12 @@ public class Resultats extends AppCompatActivity {
             Toasty.error(getBaseContext(), R.string.toastNom, Toast.LENGTH_SHORT, true).show();
         } else
         {
-            a.putExtra("Temps", sp.getBoolean(getString(R.string.timeMenu), false));
-            a.putExtra("Jugador",sp.getString(getString(R.string.aliasMenu), "Player1"));
-            a.putExtra("Rows",Integer.parseInt(sp.getString(getString(R.string.boardMenu), "6")));
+            a.putExtra(KEY_TEMPS, sp.getBoolean(getString(R.string.timeMenu), false));
+            a.putExtra(KEY_JUGADOR1,sp.getString(getString(R.string.aliasMenu), "Player1"));
+            a.putExtra(KEY_ROWS,Integer.parseInt(sp.getString(getString(R.string.boardMenu), "6")));
             if(!sp.getString(getString(R.string.aliasMenu2), "").equals("")){
-                a.putExtra("CPU",false);
-                a.putExtra("Jugador2", sp.getString(getString(R.string.aliasMenu2), "Player2"));
+                a.putExtra(KEY_CPU,false);
+                a.putExtra(KEY_JUGADOR2, sp.getString(getString(R.string.aliasMenu2), "Player2"));
             }
             startActivity(a);
             finish();
@@ -100,7 +107,7 @@ public class Resultats extends AppCompatActivity {
         } else {
             Intent in = new Intent(Intent.ACTION_SEND);
             in.putExtra(Intent.EXTRA_EMAIL, ed_text);
-            in.putExtra(Intent.EXTRA_SUBJECT, "Resultados Connect 4");
+            in.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.emailRes));
             in.putExtra(Intent.EXTRA_TEXT, resultat.getText());
             in.setType("message/rfc822");
             startActivity(in);
