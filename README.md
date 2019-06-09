@@ -38,5 +38,5 @@ comentant anteriorment els toast estan modificats, hi ha toast de color vermell 
 els passos que t'indica el missatge del toast o també que has perdut en la partida. Un altre color és el color verd on ens indiqués
 que hem guanyat i el nom del jugador. I per últim el color blau on ens indicarà que ningú ha guanyat.
 
-## Pantalla consulatar resultats
+## Pantalla consultar resultats
 Ens mostri en una llista els resultats que hem anat tenint en les partides anteriors jugades i finalitzades. Per esborrar un registre haurem de mantenir el clic en el registre que volem eliminar i ens sortirà una opció per poder eliminar. Si volem veure tot el log d'aquell registre sol haurem de fer clic sobre el resultat i ens mostrarà tot el resultat que hem tingut en la partida.
