@@ -1,5 +1,7 @@
 package com.example.marc.connect4.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,10 +16,17 @@ public class LogFragment extends Fragment {
 
     private static final String PARCEL_FRAG_LOG = "log_frag";
     private static final String PARCEL_FRAG_LOG2 = "log_frag2";
+    private static final String KEY_MOVIMENTS = "moviments";
+    private static final String KEY_CONFIG = "config";
 
 
     TextView textView;
     TextView textView2;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +50,11 @@ public class LogFragment extends Fragment {
         textView = view.findViewById(R.id.textLog);
         textView2 = view.findViewById(R.id.textConf);
 
+        Intent a = getActivity().getIntent();
+        if(a.getExtras() != null){
+            textView.setText(a.getExtras().getString(KEY_MOVIMENTS));
+            textView2.setText(a.getExtras().getString(KEY_CONFIG));
+        }
         return view;
     }
 

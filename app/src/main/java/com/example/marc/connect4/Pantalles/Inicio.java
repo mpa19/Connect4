@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.marc.connect4.SharedPreferences.ConfiguracioPredeterminada;
 import com.example.marc.connect4.R;
-import com.example.marc.connect4.Sqlite3.DatabaseHelper;
 
 import es.dmoral.toasty.Toasty;
 
@@ -34,6 +33,12 @@ public class Inicio extends AppCompatActivity {
     }
 
     void gotoAjuda(View v){
+        buttonSound.start();
+        Intent a = new Intent(this, Ajuda.class);
+        startActivity(a);
+    }
+
+    void gotoResult(View v){
         buttonSound.start();
         Intent a = new Intent(this, BDDresults.class);
         startActivity(a);

@@ -8,16 +8,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "BDDConnect4";
-    private static final String TABLE_NAME = "Logs";
-    private static final String COLUMN_ID = "_id";
-    private static final String COLUMN_JUGADOR1 = "jugador1";
-    private static final String COLUMN_JUGADOR2 = "jugador2";
-    private static final String COLUMN_DATA = "data";
-    private static final String COLUMN_GRAELLA = "graella";
-    private static final String COLUMN_TIEMPO = "tiempo";
-    private static final String COLUMN_RESULTADO = "resultado";
-    private static final String COLUMN_MOVIMIENTOS = "movimientos";
+    public static final String DB_NAME = "BDDConnect4";
+    public static final String TABLE_NAME = "Logs";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_JUGADOR1 = "jugador1";
+    public static final String COLUMN_JUGADOR2 = "jugador2";
+    public static final String COLUMN_DATA = "data";
+    public static final String COLUMN_GRAELLA = "graella";
+    public static final String COLUMN_TIEMPO = "tiempo";
+    public static final String COLUMN_RESULTADO = "resultado";
+    public static final String COLUMN_MOVIMIENTOS = "movimientos";
 
 
     private static final int DB_VERSION = 2;
@@ -68,6 +68,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase bd = this.getReadableDatabase();
         String query = "SELECT * FROM Logs WHERE _id = "+where+";";
         return bd.rawQuery(query, null);
+    }
+
+    public void deleteRegister(String where){
+        SQLiteDatabase bd = this.getWritableDatabase();
+        String query = "DELETE FROM Logs WHERE "+COLUMN_ID+" = "+where+";";
+        bd.execSQL(query);
     }
 
 

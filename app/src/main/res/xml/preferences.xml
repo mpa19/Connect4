@@ -4,13 +4,13 @@
         <EditTextPreference
             android:dialogTitle="@string/playerIdentifier"
             android:key="@string/aliasMenu"
-            android:summary="Alias of the player"
+            android:summary="@string/nomJg1"
             android:title="@string/aliasMenu" />
 
         <EditTextPreference
             android:dialogTitle="@string/playerIdentifier2"
             android:key="@string/aliasMenu2"
-            android:summary="Alias of the player 2"
+            android:summary="@string/nomJg2"
             android:title="@string/aliasMenu2" />
 
         <ListPreference
@@ -18,12 +18,11 @@
             android:entries="@array/sizes"
             android:entryValues="@array/sizes"
             android:key="@string/boardMenu"
-            android:summary="Size of the board in game"
+            android:summary="@string/sizeGraella"
             android:title="@string/boardMenu" />
 
         <CheckBoxPreference
             android:key="@string/timeMenu"
-            android:summary="Time control in game"
             android:title="@string/timeMenu" />
     </PreferenceCategory>
 </PreferenceScreen>

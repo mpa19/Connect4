@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/inicioMenu"
+        android:title="@string/menuInici"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/settingsMenu"
         android:title="@string/settingsMenu"
         app:showAsAction="never" />

@@ -73,6 +73,16 @@
     <string name="sobrat">&#160; y han sobrat &#160;</string>
     <string name="emailRes">Resultats de connect4</string>
     <string name="esgotat">El temps s"'"ha esgotat</string>
+    <string name="alias1">Jugador 1: &#160;</string>
+    <string name="alias2">Jugador 2: &#160;</string>
+    <string name="alias3">CPU</string>
+    <string name="data1">Data: &#160;</string>
+    Time control in game
+    <string name="sizeGraella">Mida que tindra la graella</string>
+    <string name="nomJg1">Nom del jugador 1</string>
+    <string name="nomJg2">Nom del jugador 2</string>
+    <string name="menuBorrar">Borrar registre</string>
+    <string name="menuInici">Anar a inici</string>
 
 
 

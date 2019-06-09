@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 
 import com.example.marc.connect4.Game.Log;
@@ -63,7 +64,8 @@ public class Resultats extends AppCompatActivity {
         } else resultat.setText(log.getResultado()+getString(R.string.sobrat)+log.getTiempo()+" secs");
 
         buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
-        guardar();
+        if(savedInstanceState == null) guardar();
+
     }
     void guardar() {
         dh = new DatabaseHelper(this);
@@ -125,6 +127,10 @@ public class Resultats extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.settingsMenu:
                 startActivity(new Intent(this, ConfiguracioPredeterminada.class));
+                break;
+            case R.id.inicioMenu:
+                startActivity(new Intent(this, Inicio.class));
+                finish();
                 break;
         }
         return true;

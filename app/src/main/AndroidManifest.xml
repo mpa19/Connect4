@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Pantalles.BDDresults"></activity>
+        <activity android:name=".Pantalles.Pantalla_log"></activity>
+        <activity android:name=".Pantalles.BDDresults" />
         <activity android:name=".Pantalles.PantallaJoc" />
         <activity
             android:name=".Pantalles.Resultats"

@@ -9,7 +9,6 @@
         android:id="@+id/gameFragment"
         android:name="com.example.marc.connect4.SharedPreferences.PreferenceFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_preference" />
+        android:layout_height="wrap_content" />
 
 </ScrollView>

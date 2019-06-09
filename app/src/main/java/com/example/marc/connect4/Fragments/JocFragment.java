@@ -32,8 +32,6 @@ import java.util.Random;
 
 import es.dmoral.toasty.Toasty;
 
-import static java.lang.Thread.sleep;
-
 public class JocFragment extends Fragment {
     GridView androidGridView;
     GridView androidGridView2;
