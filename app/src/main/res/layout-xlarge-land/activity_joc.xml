@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragments.JocFragment">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/ivFondo"
+        android:id="@+id/ivFondo3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/fondo1"
@@ -21,7 +20,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="350dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -160,9 +159,9 @@
 
             <ImageView
                 android:id="@+id/imageView13"
-                android:layout_width="151dp"
+                android:layout_width="190dp"
                 android:layout_height="30dp"
-                android:paddingLeft="100dp"
+                android:paddingLeft="150dp"
                 app:layout_constraintBottom_toTopOf="@+id/frameLayout"
                 app:layout_constraintEnd_toStartOf="@+id/tvTime"
                 app:layout_constraintHorizontal_bias="0.98"
@@ -205,9 +204,9 @@
 
         <FrameLayout
             android:id="@+id/frameLayout"
-            android:layout_width="340dp"
+            android:layout_width="wrap_content"
             android:layout_height="70dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/ivFondo"
@@ -223,9 +222,9 @@
                     android:id="@+id/gridview_android_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:columnWidth="48dp"
+                    android:columnWidth="53.5dp"
                     android:gravity="center"
-                    android:horizontalSpacing="1.5dp"
+                    android:horizontalSpacing="4dp"
                     android:numColumns="7"
                     android:scrollbarAlwaysDrawHorizontalTrack="true"
                     android:scrollbarAlwaysDrawVerticalTrack="true"
@@ -240,7 +239,7 @@
             android:id="@+id/frameLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="-15dp"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
             app:layout_constraintHorizontal_bias="0.51"
@@ -271,5 +270,4 @@
         </FrameLayout>
 
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Match">
+        <EditTextPreference
+            android:dialogTitle="@string/playerIdentifier"
+            android:key="@string/aliasMenu"
+            android:summary="@string/nomJg1"
+            android:title="@string/aliasMenu" />
+
+        <EditTextPreference
+            android:dialogTitle="@string/playerIdentifier2"
+            android:key="@string/aliasMenu2"
+            android:summary="@string/nomJg2"
+            android:title="@string/aliasMenu2" />
+
+        <ListPreference
+            android:dialogTitle="@string/boardSize"
+            android:entries="@array/sizes"
+            android:entryValues="@array/sizes"
+            android:key="@string/boardMenu"
+            android:summary="@string/sizeGraella"
+            android:title="@string/boardMenu" />
+
+        <CheckBoxPreference
+            android:key="@string/timeMenu"
+            android:title="@string/timeMenu" />
+    </PreferenceCategory>
+</PreferenceScreen>

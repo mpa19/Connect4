@@ -5,16 +5,23 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Connect4"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Resultats"></activity>
-        <activity android:name=".ConfiguracioPartida" />
-        <activity android:name=".Joc" />
-        <activity android:name=".Ajuda" />
-        <activity android:name=".Inicio" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".Pantalles.Pantalla_log"></activity>
+        <activity android:name=".Pantalles.BDDresults" />
+        <activity android:name=".Pantalles.PantallaJoc" />
+        <activity
+            android:name=".Pantalles.Resultats"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".Pantalles.ConfiguracioPartida" />
+        <activity android:name=".Pantalles.Ajuda" />
+        <activity android:name=".SharedPreferences.ConfiguracioPredeterminada" />
+        <activity
+            android:name=".Pantalles.Inicio"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity android:name=".Pantalles.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
