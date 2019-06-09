@@ -32,19 +32,19 @@ public class Inicio extends AppCompatActivity {
         buttonSound = MediaPlayer.create(this, R.raw.buttonsound);
     }
 
-    void gotoAjuda(View v){
-        buttonSound.start();
+    public void gotoAjuda(View v){
+        //buttonSound.start();
         Intent a = new Intent(this, Ajuda.class);
         startActivity(a);
     }
 
-    void gotoResult(View v){
-        buttonSound.start();
+    public void gotoResult(View v){
+        //buttonSound.start();
         Intent a = new Intent(this, BDDresults.class);
         startActivity(a);
     }
 
-    void gotoComençar(View v){
+    public void gotoComençar(View v){
         buttonSound.start();
         Intent a = new Intent(this, PantallaJoc.class);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -65,7 +65,7 @@ public class Inicio extends AppCompatActivity {
         }
     }
 
-    void gotoSortir(View v){
+    public void gotoSortir(View v){
         buttonSound.start();
         finish();
     }

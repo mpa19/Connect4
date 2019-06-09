@@ -75,12 +75,12 @@ public class Resultats extends AppCompatActivity {
         dh.addResult(log.getJugador1(), vs, currentDateandTime, log.getGraella(), log.getTiempo(), log.getResultado(), log.getMovimientos());
 
     }
-    void gotoSortir(View v){
+    public void gotoSortir(View v){
         buttonSound.start();
         finish();
     }
 
-    void gotoNova(View v) {
+    public void gotoNova(View v) {
         buttonSound.start();
         Intent a = new Intent(this, PantallaJoc.class);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -101,7 +101,7 @@ public class Resultats extends AppCompatActivity {
         }
     }
 
-    void gotoEmail(View v){
+    public void gotoEmail(View v){
         buttonSound.start();
         String ed_text = email.getText().toString().trim();
         if(TextUtils.isEmpty(ed_text)){
